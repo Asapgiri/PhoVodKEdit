@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31727.386
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoVodKEdit", "PhoVodKEdit\PhoVodKEdit.csproj", "{FDC520F9-DD11-4153-87F8-96A96130EBE1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Screens", "Screens", "{0D1F7212-D22F-426F-96DA-8A85B0EE2333}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Effects", "Effects", "{EDBC6BCA-B107-4DBD-A92F-590F9A521FC4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layers", "Layers", "{61F1B11C-788E-4E21-B4DB-5137D3797BCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoVodKEdit.Loader", "PhoVodKEdit.Loader\PhoVodKEdit.Loader.csproj", "{4957C702-97BD-4AA5-94C8-3562BEFCCDAD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{8A882506-5F28-48B7-A0A4-0AFD62E5DDA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoVodKEdit.Access", "DataAccess\PhoVodKEdit.Access\PhoVodKEdit.Access.csproj", "{A36003B6-7125-43D8-BD3C-B03892379DBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoVodKEdit.Repository", "DataAccess\PhoVodKEdit.Repository\PhoVodKEdit.Repository.csproj", "{9DC7ABEB-CD05-4686-92BB-3F1B079C3EBB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FDC520F9-DD11-4153-87F8-96A96130EBE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDC520F9-DD11-4153-87F8-96A96130EBE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDC520F9-DD11-4153-87F8-96A96130EBE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDC520F9-DD11-4153-87F8-96A96130EBE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4957C702-97BD-4AA5-94C8-3562BEFCCDAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4957C702-97BD-4AA5-94C8-3562BEFCCDAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4957C702-97BD-4AA5-94C8-3562BEFCCDAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4957C702-97BD-4AA5-94C8-3562BEFCCDAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A36003B6-7125-43D8-BD3C-B03892379DBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A36003B6-7125-43D8-BD3C-B03892379DBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A36003B6-7125-43D8-BD3C-B03892379DBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A36003B6-7125-43D8-BD3C-B03892379DBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DC7ABEB-CD05-4686-92BB-3F1B079C3EBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DC7ABEB-CD05-4686-92BB-3F1B079C3EBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DC7ABEB-CD05-4686-92BB-3F1B079C3EBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DC7ABEB-CD05-4686-92BB-3F1B079C3EBB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A36003B6-7125-43D8-BD3C-B03892379DBB} = {8A882506-5F28-48B7-A0A4-0AFD62E5DDA6}
+		{9DC7ABEB-CD05-4686-92BB-3F1B079C3EBB} = {8A882506-5F28-48B7-A0A4-0AFD62E5DDA6}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B01CFBA6-F5BC-4E83-BA7A-495DC69862CA}
+	EndGlobalSection
+EndGlobal

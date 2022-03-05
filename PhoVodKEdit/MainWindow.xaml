@@ -1,0 +1,199 @@
+﻿<Window x:Class="PhoVodKEdit.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PhoVodKEdit"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="950" Width="1800"
+        Background="{Binding Applied.Colors.MainColor}">
+    <Window.Resources>
+        <Style TargetType="TabItem">
+            <Setter x:Name="TabItemSetter" Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border Name="Border" Background="{Binding Applied.Colors.BackgroundColor}"
+                                CornerRadius="3,3,0,0" Width="150" Height="30" >
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Left"
+                                                          ContentSource="Header" Margin="10,2"
+                                                          TextBlock.Foreground="White" TextBlock.FontWeight="Bold"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="{Binding Applied.Colors.SecondaryColor}" />
+                                <Setter TargetName="Border" Property="TextBlock.FontWeight" Value="Bold" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="{Binding Applied.Colors.BackgroundColor}" />
+                                <Setter TargetName="Border" Property="TextBlock.FontWeight" Value="Normal" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="{Binding Applied.Colors.MainColor}" />
+        </Style>
+
+        <Style TargetType="Menu">
+            <Setter Property="Background" Value="{Binding Applied.Colors.MainColor}" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="5,0,5,0" />
+        </Style>
+        
+        <Style TargetType="MenuItem">
+            <Setter Property="Background" Value="{Binding Applied.Colors.MainColor}" />
+            <Setter Property="Foreground" Value="{Binding Applied.Colors.ForegroundColor}" />
+        </Style>
+
+        <Style TargetType="DockPanel">
+            <Setter Property="Margin" Value="3" />
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="24" />
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{Binding Applied.Colors.ForegroundColor}" />
+            <Setter Property="MinHeight" Value="30" />
+            <Setter Property="FontSize" Value="{Binding Applied.Font.Size}" />
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="{Binding Applied.Colors.MainColor}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+
+        <!--<ToolBar Grid.Row="0" Background="Transparent"/>-->
+        <DockPanel x:Name="Toolbar" Background="{Binding Applied.Colors.MainColor}">
+            <Menu>
+                <MenuItem Header="Menu1">
+                    <MenuItem Header="MenuItem1"/>
+                </MenuItem>
+            </Menu>
+            <Menu>
+                <MenuItem Header="Menu2">
+                    <MenuItem Header="MenuItem1"/>
+                </MenuItem>
+            </Menu>
+            <Menu>
+                <MenuItem Header="Menu3">
+                    <MenuItem Header="MenuItem1"/>
+                </MenuItem>
+            </Menu>
+            <Menu>
+                <MenuItem Header="Menu4">
+                    <MenuItem Header="MenuItem1"/>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+
+        <StatusBar Grid.Row="4" Grid.ColumnSpan="3" Background="{Binding Applied.Colors.BackgroundColor}" Margin="0,0,0.4,-0.2"/>
+
+        <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Width="8"
+                      VerticalAlignment="Stretch" HorizontalAlignment="Center"
+                      Background="{Binding Applied.Colors.MainColor}" />
+
+        <GridSplitter Grid.Row="2" Grid.Column="2" Height="8" 
+                      VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                      Background="{Binding Applied.Colors.MainColor}" />
+
+        <TabControl Grid.Row="1" x:Name="TabControl" BorderThickness="0" Margin="0,0,0,3"
+                    Grid.RowSpan="3" Background="{Binding Applied.Colors.MainColor}">
+            <TabItem MouseDown="TabItem_MouseDown" Header="Tabitem 1">
+                <Border BorderThickness="0,0,1,1" BorderBrush="{Binding Applied.Colors.BorderColor}" Margin="0,-2,-2,-2">
+                    <Border BorderThickness="3,3,0,0" BorderBrush="{Binding Applied.Colors.SecondaryColor}">
+                        <Grid Background="{Binding Applied.Colors.BackgroundColor}" Margin="0,0,0,0">
+                            <Button Content="Dark Colors" HorizontalAlignment="Left" Margin="91,76,0,0" VerticalAlignment="Top" Width="316" Height="127" Click="Button_Click"/>
+                            <Button Content="Light Colors" HorizontalAlignment="Left" Margin="479,76,0,0" VerticalAlignment="Top" Width="316" Height="127" Click="Button_Click_1"/>
+                            <ToolBarTray HorizontalAlignment="Left" Height="100" Margin="247,321,0,0" VerticalAlignment="Top" Width="198"/>
+                            <ToolBarPanel HorizontalAlignment="Left" Height="100" Margin="503,348,0,0" VerticalAlignment="Top" Width="312">
+                                <ToolBar HorizontalAlignment="Left" Height="100" Width="312">
+                                    <Menu>
+                                        <MenuItem Header="Kenyér">
+                                            <MenuItem Header="Vajas kenyér!"/>
+                                        </MenuItem>
+                                    </Menu>
+                                </ToolBar>
+                            </ToolBarPanel>
+                        </Grid>
+                    </Border>
+                </Border>
+            </TabItem>
+            <TabItem Header="TabItem2" MouseDown="TabItem_MouseDown">
+                <Border BorderThickness="0,0,1,1" BorderBrush="{Binding Applied.Colors.BorderColor}" Margin="0,-2,-2,-2">
+                    <Border BorderThickness="3,3,0,0" BorderBrush="{Binding Applied.Colors.SecondaryColor}">
+                        <Grid Background="{Binding Applied.Colors.BackgroundColor}" Margin="0,0,0,0"/>
+                    </Border>
+                </Border>
+            </TabItem>
+            <TabItem Header="TabItem2" MouseDown="TabItem_MouseDown">
+                <Border BorderThickness="0,0,1,1" BorderBrush="{Binding Applied.Colors.BorderColor}" Margin="0,-2,-2,-2">
+                    <Border BorderThickness="3,3,0,0" BorderBrush="{Binding Applied.Colors.SecondaryColor}">
+                        <Grid Background="{Binding Applied.Colors.BackgroundColor}" Margin="0,0,0,0"/>
+                    </Border>
+                </Border>
+            </TabItem>
+        </TabControl>
+
+        <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" BorderThickness="1" Margin="0,3,3,0" BorderBrush="{Binding Applied.Colors.BorderColor}" Background="{Binding Applied.Colors.BackgroundColor}">
+            <Grid x:Name="EffectsGrid" SizeChanged="EffectsGrid_SizeChanged">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" BorderBrush="{Binding Applied.Colors.BorderColor}" BorderThickness="0,0,0,1" Background="{Binding Applied.Colors.MainColor}">
+                    <Label Foreground="{Binding Applied.Colors.ForegroundColor}" HorizontalAlignment="Center">Effektek</Label>
+                </Border>
+                <ScrollViewer x:Name="EffectsScroller" VerticalScrollBarVisibility="Auto" Grid.Row="1" MaxHeight="200">
+                    <StackPanel Margin="5" VerticalAlignment="Top">
+                        <Button>Some text</Button>
+                        <Button>Some text</Button>
+                        <Button>Some text</Button>
+                    </StackPanel>
+                </ScrollViewer>
+                <Border Grid.Row="2" BorderBrush="{Binding Applied.Colors.BorderColor}" BorderThickness="0,1,0,0" MinHeight="30">
+                    <Button Content="Effekt hozzáadása" HorizontalAlignment="Center" Margin="3" Width="150" Height="30"/>
+                </Border>
+            </Grid>
+        </Border>
+        
+        <Border Grid.Row="3" Grid.Column="2" BorderThickness="1" Margin="0,0,3,3" BorderBrush="{Binding Applied.Colors.BorderColor}" Background="{Binding Applied.Colors.BackgroundColor}">
+            <Grid x:Name="LayersGrid" SizeChanged="LayersGrid_SizeChanged">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" BorderBrush="{Binding Applied.Colors.BorderColor}" BorderThickness="0,0,0,1" Background="{Binding Applied.Colors.MainColor}">
+                    <Label Foreground="{Binding Applied.Colors.ForegroundColor}" HorizontalAlignment="Center">Rétegek</Label>
+                </Border>
+                <ScrollViewer x:Name="LayersScroller" VerticalScrollBarVisibility="Auto" Grid.Row="1" MaxHeight="200">
+                    <StackPanel Margin="5" VerticalAlignment="Top">
+                        <Button>Some text</Button>
+                        <Button>Some text</Button>
+                        <Button>Some text</Button>
+                        <Button>Some text</Button>
+                        <Button>Some text</Button>
+                    </StackPanel>
+                </ScrollViewer>
+                <Border Grid.Row="2" BorderBrush="{Binding Applied.Colors.BorderColor}" BorderThickness="0,1,0,0" MinHeight="30">
+                    <Button Content="Réteg hozzáadása" HorizontalAlignment="Center" Margin="3" Width="150" Height="30"/>
+                </Border>
+            </Grid>
+        </Border>
+        
+    </Grid>
+</Window>
