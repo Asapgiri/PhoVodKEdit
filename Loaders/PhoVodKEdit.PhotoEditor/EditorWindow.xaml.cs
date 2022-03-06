@@ -23,7 +23,7 @@ namespace PhoVodKEdit.PhotoEditor
 	{
 		public EditorWindow(Window _mainWindow)
 		{
-			DataContext = _mainWindow;
+			DataContext = this;
 			InitializeComponent();
 		}
 	}

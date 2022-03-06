@@ -26,7 +26,8 @@ namespace PhoVodKEdit
 		private ResourceLoader resourceLoader;
 
 		public AppliedSettings Applied { get; set; }
-		public List<Type> Screens { get; private set; }
+		public List<Type> ScreenTypess { get; private set; }
+		public List<Type> EffectTypess { get; private set; }
 
 		public MainWindow()
 		{
@@ -35,17 +36,20 @@ namespace PhoVodKEdit
 			Applied = new AppliedSettings(PropertyChanged);
 			SetDarkColors();
 
-			resourceLoader = new ResourceLoader(this, Applied);
+			resourceLoader = new ResourceLoader(this, Applied, PropertyChanged);
 			LoadScreens();
 		}
 
 		private void LoadScreens()
 		{
-			Screens = resourceLoader.LoadScreens();
+			List<Type> effects;
+			ScreenTypess = resourceLoader.LoadScreens(out effects);
+			EffectTypess = effects;
 
-			foreach (var screen in Screens)
+			foreach (var screenTyle in ScreenTypess)
 			{
-				AddScreenToTabControl(resourceLoader.CreateInstance(screen) as PortScreen);
+				PortScreen newScreen = resourceLoader.CreateInstance(screenTyle) as PortScreen;
+				AddScreenToTabControl(newScreen);
 			}
 
 		}

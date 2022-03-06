@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -17,11 +18,13 @@ namespace PhoVodKEdit.Loader
 
 		private Window MainWindow { get; set; }
 		private AppliedSettings Applied { get; set; }
+		private PropertyChangedEventHandler PropertyChanged { get; set; }
 
-		public ResourceLoader(Window _mainWindow, AppliedSettings _applied)
+		public ResourceLoader(Window _mainWindow, AppliedSettings _applied, PropertyChangedEventHandler _eventHandler)
 		{
 			MainWindow = _mainWindow;
 			Applied = _applied;
+			PropertyChanged = _eventHandler;
 		}
 
 		public ResourceLoader()
@@ -41,29 +44,37 @@ namespace PhoVodKEdit.Loader
 			return loadableFiles;
 		}
 
-		public List<Type> Load<T>() where T: PortingUtility
+		public List<Type> Load<T, Other>(out List<Type> others) where T: PortingUtility where Other: PortingUtility
 		{
 			string[] lf = GetLoadableResources();
 			List<Type> ret = new List<Type>();
+			others = new List<Type>();
 
 			foreach (string dllPath in lf)
 			{
 				var DLL = Assembly.LoadFile(Path.Combine(Directory.GetCurrentDirectory(), dllPath));
 
-				foreach (Type type in DLL.GetTypes().Where(x => x.IsSubclassOf(typeof(T))))
+				foreach (Type type in DLL.GetTypes())
 				{
-					ret.Add(type);
+					if (type.IsSubclassOf(typeof(T)))
+					{
+						ret.Add(type);
+					}
+					else if (type.IsSubclassOf(typeof(Other)))
+					{
+						others.Add(type);
+					}
 				}
 			}
 
 			return ret;
 		}
 
-		public List<Type> LoadEffects() => Load<PortEffect>();
+		public List<Type> LoadEffects(out List<Type> others) => Load<PortEffect, PortingUtility>(out others);
 
-		public List<Type> LoadScreens() => Load<PortScreen>();
+		public List<Type> LoadScreens(out List<Type> others) => Load<PortScreen, PortEffect>(out others);
 
-		public List<Type> Load() => Load<PortingUtility>();
+		public List<Type> Load(out List<Type> others) => Load<PortingUtility, PortingUtility>(out others);
 
 		public PortingUtility CreateInstance(Type type)
 		{
