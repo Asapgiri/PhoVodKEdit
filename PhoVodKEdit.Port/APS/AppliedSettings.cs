@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace PhoVodKEdit.APS
+namespace PhoVodKEdit.Port.APS
 {
 	public class AppliedSettings
 	{

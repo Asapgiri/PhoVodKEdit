@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -42,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APS\AppliedColors.cs" />
+    <Compile Include="APS\AppliedSettings.cs" />
+    <Compile Include="APS\Settings.cs" />
     <Compile Include="PortEffect.cs" />
     <Compile Include="PortingUtility.cs" />
     <Compile Include="PortScreen.cs" />

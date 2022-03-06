@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using PhoVodKEdit.Port.APS;
 
 namespace PhoVodKEdit.Port
 {
@@ -13,9 +14,12 @@ namespace PhoVodKEdit.Port
 		protected Window MainWindow { get; set; }
 		protected UserControl OwnWindow { get; set; }
 
-		public PortingUtility(Window _mainWindow)
+		public AppliedSettings Applied { get; set; }
+
+		public PortingUtility(Window _mainWindow, AppliedSettings _applied)
 		{
 			MainWindow = _mainWindow;
+			Applied = _applied;
 		}
 
 		public UserControl GetWindow()

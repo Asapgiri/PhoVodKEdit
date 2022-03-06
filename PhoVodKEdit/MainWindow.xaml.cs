@@ -10,9 +10,9 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using PhoVodKEdit.APS;
 using PhoVodKEdit.Loader;
 using PhoVodKEdit.Port;
+using PhoVodKEdit.Port.APS;
 
 namespace PhoVodKEdit
 {
@@ -26,16 +26,16 @@ namespace PhoVodKEdit
 		private ResourceLoader resourceLoader;
 
 		public AppliedSettings Applied { get; set; }
-		public List<PortScreen> Screens { get; private set; }
+		public List<Type> Screens { get; private set; }
 
 		public MainWindow()
 		{
 			InitializeComponent();
 			DataContext = this;
-
-			resourceLoader = new ResourceLoader(this);
 			Applied = new AppliedSettings(PropertyChanged);
 			SetDarkColors();
+
+			resourceLoader = new ResourceLoader(this, Applied);
 			LoadScreens();
 		}
 
@@ -45,30 +45,48 @@ namespace PhoVodKEdit
 
 			foreach (var screen in Screens)
 			{
-				AddScreenToTabControl(screen);
+				AddScreenToTabControl(resourceLoader.CreateInstance(screen) as PortScreen);
 			}
 
 		}
 
 		private void AddScreenToTabControl(PortScreen screen)
 		{
-			TabControl.Items.Add(new TabItem()
+			Border innerBorder = new Border()
+			{
+				BorderThickness = new Thickness(3, 3, 0, 0),
+				BorderBrush = Applied.Colors.SecondaryColor,
+				Child = screen.GetWindow()
+			};
+
+			BindingOperations.SetBinding(innerBorder, Border.BorderBrushProperty, new Binding("Applied.Colors.SecondaryColor")
+			{
+				Mode = BindingMode.TwoWay,
+				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+			});
+
+			Border outerBorder = new Border()
+			{
+				BorderThickness = new Thickness(0, 0, 1, 1),
+				Margin = new Thickness(0, -2, -2, -2),
+				BorderBrush = Applied.Colors.BorderColor,
+				Child = innerBorder,
+			};
+
+			BindingOperations.SetBinding(outerBorder, Border.BorderBrushProperty, new Binding("Applied.Colors.BorderColor")
+			{
+				Mode = BindingMode.TwoWay,
+				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+			});
+
+			TabItem item = new TabItem()
 			{
 				Header = screen.GetType().Name,
-				Content = new Border()
-				{
-					BorderThickness = new Thickness(0, 0, 1, 1),
-					Margin = new Thickness(0, -2, -2, -2),
-					Background = Applied.Colors.BackgroundColor,
-					BorderBrush = Applied.Colors.BorderColor,
-					Child = new Border()
-					{
-						BorderThickness = new Thickness(3, 3, 0, 0),
-						BorderBrush = Applied.Colors.SecondaryColor,
-						Child = screen.GetWindow()
-					}
-				}
-			});
+				Content = outerBorder
+			};
+			item.MouseDown += TabItem_MouseDown;
+
+			TabControl.Items.Add(item);
 		}
 
 		#region Theme setters

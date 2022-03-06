@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using PhoVodKEdit.Port;
+using PhoVodKEdit.Port.APS;
 
 namespace PhoVodKEdit.Loader
 {
@@ -15,10 +16,12 @@ namespace PhoVodKEdit.Loader
 		private const string LOAD_DIR = "Loaders";
 
 		private Window MainWindow { get; set; }
+		private AppliedSettings Applied { get; set; }
 
-		public ResourceLoader(Window _mainWindow)
+		public ResourceLoader(Window _mainWindow, AppliedSettings _applied)
 		{
 			MainWindow = _mainWindow;
+			Applied = _applied;
 		}
 
 		public ResourceLoader()
@@ -38,10 +41,10 @@ namespace PhoVodKEdit.Loader
 			return loadableFiles;
 		}
 
-		public List<T> Load<T>() where T: PortingUtility
+		public List<Type> Load<T>() where T: PortingUtility
 		{
 			string[] lf = GetLoadableResources();
-			List<T> ret = new List<T>();
+			List<Type> ret = new List<Type>();
 
 			foreach (string dllPath in lf)
 			{
@@ -49,17 +52,22 @@ namespace PhoVodKEdit.Loader
 
 				foreach (Type type in DLL.GetTypes().Where(x => x.IsSubclassOf(typeof(T))))
 				{
-					ret.Add(Activator.CreateInstance(type, new object[] { MainWindow }) as T);
+					ret.Add(type);
 				}
 			}
 
 			return ret;
 		}
 
-		public List<PortEffect> LoadEffects() => Load<PortEffect>();
+		public List<Type> LoadEffects() => Load<PortEffect>();
 
-		public List<PortScreen> LoadScreens() => Load<PortScreen>();
+		public List<Type> LoadScreens() => Load<PortScreen>();
 
-		public List<PortingUtility> Load() => Load<PortingUtility>();
+		public List<Type> Load() => Load<PortingUtility>();
+
+		public PortingUtility CreateInstance(Type type)
+		{
+			return Activator.CreateInstance(type, new object[] { MainWindow, Applied }) as PortingUtility;
+		}
 	}
 }

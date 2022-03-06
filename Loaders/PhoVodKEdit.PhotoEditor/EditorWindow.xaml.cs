@@ -12,16 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PhoVodKEdit.Port.APS;
 
 namespace PhoVodKEdit.PhotoEditor
 {
 	/// <summary>
-	/// Interaction logic for PhotoEditorWindow.xaml
+	/// Interaction logic for EditorWindow.xaml
 	/// </summary>
-	public partial class PhotoEditorWindow : UserControl
+	public partial class EditorWindow : UserControl
 	{
-		public PhotoEditorWindow()
+		public EditorWindow(Window _mainWindow)
 		{
+			DataContext = _mainWindow;
 			InitializeComponent();
 		}
 	}
