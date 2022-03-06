@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PhoVodKEdit.Settings")]
+[assembly: AssemblyTitle("PhoVodKEdit.Console")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("PhoVodKEdit.Settings")]
+[assembly: AssemblyProduct("PhoVodKEdit.Console")]
 [assembly: AssemblyCopyright("Copyright ©  2022")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("2623cf0a-a59d-4055-b210-7e873978cd28")]
+[assembly: Guid("183f7036-4804-4b3d-8fb0-a163c9efcd47")]
 
 // Version information for an assembly consists of the following four values:
 //

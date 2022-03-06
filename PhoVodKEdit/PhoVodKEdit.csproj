@@ -97,5 +97,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PhoVodKEdit.Loader\PhoVodKEdit.Loader.csproj">
+      <Project>{4957C702-97BD-4AA5-94C8-3562BEFCCDAD}</Project>
+      <Name>PhoVodKEdit.Loader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PhoVodKEdit.Port\PhoVodKEdit.Port.csproj">
+      <Project>{86A4D779-7275-4C2C-9E6D-DCF78D3291B3}</Project>
+      <Name>PhoVodKEdit.Port</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

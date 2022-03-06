@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4957C702-97BD-4AA5-94C8-3562BEFCCDAD}</ProjectGuid>
+    <ProjectGuid>{86A4D779-7275-4C2C-9E6D-DCF78D3291B3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PhoVodKEdit.Loader</RootNamespace>
-    <AssemblyName>PhoVodKEdit.Loader</AssemblyName>
+    <RootNamespace>PhoVodKEdit.Port</RootNamespace>
+    <AssemblyName>PhoVodKEdit.Port</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -42,15 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IResourceLoader.cs" />
-    <Compile Include="ResourceLoader.cs" />
+    <Compile Include="PortEffect.cs" />
+    <Compile Include="PortingUtility.cs" />
+    <Compile Include="PortScreen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PhoVodKEdit.Port\PhoVodKEdit.Port.csproj">
-      <Project>{86A4D779-7275-4C2C-9E6D-DCF78D3291B3}</Project>
-      <Name>PhoVodKEdit.Port</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

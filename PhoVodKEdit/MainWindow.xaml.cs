@@ -11,6 +11,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using PhoVodKEdit.APS;
+using PhoVodKEdit.Loader;
+using PhoVodKEdit.Port;
 
 namespace PhoVodKEdit
 {
@@ -21,102 +23,55 @@ namespace PhoVodKEdit
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		/*
-		#region Variables
-
-		private Brush _mainColor;
-		private Brush _secondaryColor;
-		private Brush _foregroundColor;
-		private Brush _backgroundColor;
-		private Brush _borderColor;
-
-		#endregion Variables
-
-		#region Properties
-
-		public Brush MainColor
-		{
-			get
-			{
-				return _mainColor;
-			}
-			set
-			{
-				_mainColor = value;
-				OnPropertyChanged("MainColor");
-
-			}
-		}
-		
-		public Brush SecondaryColor
-		{
-			get
-			{
-				return _secondaryColor;
-			}
-			set
-			{
-				_secondaryColor = value;
-				OnPropertyChanged("SecondaryColor");
-
-			}
-		}
-
-		public Brush ForegroundColor
-		{
-			get
-			{
-				return _foregroundColor;
-			}
-			set
-			{
-				_foregroundColor = value;
-				OnPropertyChanged("ForegroundColor");
-
-			}
-		}
-
-		public Brush BackgroundColor
-		{
-			get
-			{
-				return _backgroundColor;
-			}
-			set
-			{
-				_backgroundColor = value;
-				OnPropertyChanged("BackgroundColor");
-
-			}
-		}
-
-		public Brush BorderColor
-		{
-			get
-			{
-				return _borderColor;
-			}
-			set
-			{
-				_borderColor = value;
-				OnPropertyChanged("BorderColor");
-
-			}
-		}
-
-		#endregion Properties
-		*/
+		private ResourceLoader resourceLoader;
 
 		public AppliedSettings Applied { get; set; }
+		public List<PortScreen> Screens { get; private set; }
 
 		public MainWindow()
 		{
 			InitializeComponent();
 			DataContext = this;
 
+			resourceLoader = new ResourceLoader(this);
 			Applied = new AppliedSettings(PropertyChanged);
 			SetDarkColors();
+			LoadScreens();
 		}
+
+		private void LoadScreens()
+		{
+			Screens = resourceLoader.LoadScreens();
+
+			foreach (var screen in Screens)
+			{
+				AddScreenToTabControl(screen);
+			}
+
+		}
+
+		private void AddScreenToTabControl(PortScreen screen)
+		{
+			TabControl.Items.Add(new TabItem()
+			{
+				Header = screen.GetType().Name,
+				Content = new Border()
+				{
+					BorderThickness = new Thickness(0, 0, 1, 1),
+					Margin = new Thickness(0, -2, -2, -2),
+					Background = Applied.Colors.BackgroundColor,
+					BorderBrush = Applied.Colors.BorderColor,
+					Child = new Border()
+					{
+						BorderThickness = new Thickness(3, 3, 0, 0),
+						BorderBrush = Applied.Colors.SecondaryColor,
+						Child = screen.GetWindow()
+					}
+				}
+			});
+		}
+
+		#region Theme setters
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
@@ -127,8 +82,6 @@ namespace PhoVodKEdit
 		{
 			SetLightColors();
 		}
-
-		#region Theme setters
 
 		private void SetDarkColors()
 		{
@@ -149,16 +102,6 @@ namespace PhoVodKEdit
 		}
 
 		#endregion Theme setters
-
-		protected void OnPropertyChanged(string propertyName)
-		{
-			PropertyChangedEventHandler handler = PropertyChanged;
-
-			if (handler != null)
-			{
-				handler(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
 
 		private void TabItem_MouseDown(object sender, MouseButtonEventArgs e)
 		{
