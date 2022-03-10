@@ -11,9 +11,9 @@ namespace PhoVodKEdit.PhotoEditor
 {
 	public class Editor : PortScreen
 	{
-		public Editor(Window _mainWindow, AppliedSettings _applied) : base(_mainWindow, _applied)
+		public Editor(AppliedSettings _applied) : base(_applied)
 		{
-			OwnWindow = new EditorWindow(_mainWindow);
+			OwnWindow = new EditorWindow();
 		}
 	}
 }

@@ -21,9 +21,8 @@ namespace PhoVodKEdit.PhotoEditor
 	/// </summary>
 	public partial class EditorWindow : UserControl
 	{
-		public EditorWindow(Window _mainWindow)
+		public EditorWindow()
 		{
-			DataContext = this;
 			InitializeComponent();
 		}
 	}

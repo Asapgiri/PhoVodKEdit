@@ -10,7 +10,7 @@ namespace PhoVodKEdit.Port
 	{
 		protected List<Effect> Effects = new List<Effect>();
 
-		public PortScreen(Window _mainWindow, AppliedSettings _applied) : base(_mainWindow, _applied)
+		public PortScreen(AppliedSettings _applied) : base(_applied)
 		{
 		}
 

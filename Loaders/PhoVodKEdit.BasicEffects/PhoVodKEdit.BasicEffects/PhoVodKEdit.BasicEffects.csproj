@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{86A4D779-7275-4C2C-9E6D-DCF78D3291B3}</ProjectGuid>
+    <ProjectGuid>{713C20AD-69B9-447E-9951-0F57F183220E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PhoVodKEdit.Port</RootNamespace>
-    <AssemblyName>PhoVodKEdit.Port</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <RootNamespace>PhoVodKEdit.BasicEffects</RootNamespace>
+    <AssemblyName>PhoVodKEdit.BasicEffects</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,9 +30,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,16 +45,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="APS\AppliedColors.cs" />
-    <Compile Include="APS\AppliedSettings.cs" />
-    <Compile Include="APS\Settings.cs" />
-    <Compile Include="PortEffect.cs" />
-    <Compile Include="PortingUtility.cs" />
-    <Compile Include="PortScreen.cs" />
+    <Compile Include="Invert.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\Canvas.cs" />
-    <Compile Include="Utilities\Effect.cs" />
-    <Compile Include="Utilities\Layer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\PhoVodKEdit.Port\PhoVodKEdit.Port.csproj">
+      <Project>{86A4D779-7275-4C2C-9E6D-DCF78D3291B3}</Project>
+      <Name>PhoVodKEdit.Port</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

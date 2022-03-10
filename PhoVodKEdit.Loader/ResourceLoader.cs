@@ -78,7 +78,11 @@ namespace PhoVodKEdit.Loader
 
 		public PortingUtility CreateInstance(Type type)
 		{
-			return Activator.CreateInstance(type, new object[] { MainWindow, Applied }) as PortingUtility;
+			PortingUtility portedClass = Activator.CreateInstance(type, new object[] { Applied }) as PortingUtility;
+
+			portedClass.MainWindow = MainWindow;
+
+			return portedClass;
 		}
 	}
 }

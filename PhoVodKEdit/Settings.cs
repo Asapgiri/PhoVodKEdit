@@ -32,7 +32,7 @@ namespace PhoVodKEdit
 
 		public static class Font
 		{
-			public static int Size = 14;
+			public static double Size = 14;
 		}
 	}
 }

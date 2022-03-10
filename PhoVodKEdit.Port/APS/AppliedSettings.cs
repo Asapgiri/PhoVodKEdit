@@ -12,7 +12,7 @@ namespace PhoVodKEdit.Port.APS
 	{
 		public struct Fonts
 		{
-			public double Size;
+			public double Size { get; set; }
 		}
 
 		public struct LanguageDictionary

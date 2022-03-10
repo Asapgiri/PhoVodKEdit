@@ -6,8 +6,8 @@ namespace PhoVodKEdit.Port
 {
 	public abstract class PortingUtility
     {
-		protected Window MainWindow { get; set; }
-		protected UserControl OwnWindow { get; set; }
+		public UserControl OwnWindow { get; set; }
+		public Window MainWindow { get; set; }
 
 		public AppliedSettings Applied { get; set; }
 
@@ -15,9 +15,8 @@ namespace PhoVodKEdit.Port
 		public string PublicName { get; private set; }
 		public string Description { get; private set; } = string.Empty;
 
-		public PortingUtility(Window _mainWindow, AppliedSettings _applied)
+		public PortingUtility(AppliedSettings _applied)
 		{
-			MainWindow = _mainWindow;
 			Applied = _applied;
 			Name = GetType().Name;
 			PublicName = GetType().Name;

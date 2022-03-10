@@ -7,6 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="{Binding Applied.Colors.MainColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
-            
+        <ScrollViewer HorizontalScrollBarVisibility="auto" VerticalScrollBarVisibility="Auto">
+            <Canvas x:Name="MainCanvas" Width="500" Height="400" Background="White">
+
+            </Canvas>
+        </ScrollViewer>
     </Grid>
 </UserControl>

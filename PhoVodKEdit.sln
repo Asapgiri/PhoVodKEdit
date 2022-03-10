@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31727.386
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoVodKEdit", "PhoVodKEdit\PhoVodKEdit.csproj", "{FDC520F9-DD11-4153-87F8-96A96130EBE1}"
 EndProject
@@ -24,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoVodKEdit.Console", "PhoVodKEdit.Console\PhoVodKEdit.Console.csproj", "{183F7036-4804-4B3D-8FB0-A163C9EFCD47}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoVodKEdit.PhotoEditor", "Loaders\PhoVodKEdit.PhotoEditor\PhoVodKEdit.PhotoEditor.csproj", "{F7EBE029-1549-4D21-9023-503E6861D105}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoVodKEdit.BasicEffects", "Loaders\PhoVodKEdit.BasicEffects\PhoVodKEdit.BasicEffects\PhoVodKEdit.BasicEffects.csproj", "{713C20AD-69B9-447E-9951-0F57F183220E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{F7EBE029-1549-4D21-9023-503E6861D105}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7EBE029-1549-4D21-9023-503E6861D105}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7EBE029-1549-4D21-9023-503E6861D105}.Release|Any CPU.Build.0 = Release|Any CPU
+		{713C20AD-69B9-447E-9951-0F57F183220E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713C20AD-69B9-447E-9951-0F57F183220E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713C20AD-69B9-447E-9951-0F57F183220E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713C20AD-69B9-447E-9951-0F57F183220E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{A36003B6-7125-43D8-BD3C-B03892379DBB} = {8A882506-5F28-48B7-A0A4-0AFD62E5DDA6}
 		{9DC7ABEB-CD05-4686-92BB-3F1B079C3EBB} = {8A882506-5F28-48B7-A0A4-0AFD62E5DDA6}
 		{F7EBE029-1549-4D21-9023-503E6861D105} = {0D1F7212-D22F-426F-96DA-8A85B0EE2333}
+		{713C20AD-69B9-447E-9951-0F57F183220E} = {EDBC6BCA-B107-4DBD-A92F-590F9A521FC4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B01CFBA6-F5BC-4E83-BA7A-495DC69862CA}
