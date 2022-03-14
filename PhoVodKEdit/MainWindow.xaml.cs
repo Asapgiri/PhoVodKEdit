@@ -23,11 +23,13 @@ namespace PhoVodKEdit
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		private ResourceLoader resourceLoader;
+		private readonly ResourceLoader resourceLoader;
 
 		public AppliedSettings Applied { get; set; }
-		public List<Type> ScreenTypess { get; private set; }
-		public List<Type> EffectTypess { get; private set; }
+		public List<Type> ScreenTypes { get; private set; }
+		public List<Type> EffectTypes { get; private set; }
+
+		public List<PortScreen> Screens { get; private set; }
 
 		public MainWindow()
 		{
@@ -36,17 +38,17 @@ namespace PhoVodKEdit
 			Applied = new AppliedSettings(PropertyChanged);
 			SetDarkColors();
 
+			Screens = new List<PortScreen>();
 			resourceLoader = new ResourceLoader(this, Applied, PropertyChanged);
 			LoadScreens();
 		}
 
 		private void LoadScreens()
 		{
-			List<Type> effects;
-			ScreenTypess = resourceLoader.LoadScreens(out effects);
-			EffectTypess = effects;
+			ScreenTypes = resourceLoader.LoadScreens(out List<Type> effects);
+			EffectTypes = effects;
 
-			foreach (var screenTyle in ScreenTypess)
+			foreach (var screenTyle in ScreenTypes)
 			{
 				PortScreen newScreen = resourceLoader.CreateInstance(screenTyle) as PortScreen;
 				AddScreenToTabControl(newScreen);
@@ -64,6 +66,12 @@ namespace PhoVodKEdit
 			};
 
 			BindingOperations.SetBinding(innerBorder, Border.BorderBrushProperty, new Binding("Applied.Colors.SecondaryColor")
+			{
+				Mode = BindingMode.TwoWay,
+				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+			});
+
+			BindingOperations.SetBinding(innerBorder, Border.BackgroundProperty, new Binding("Applied.Colors.BackgroundColor")
 			{
 				Mode = BindingMode.TwoWay,
 				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
@@ -90,7 +98,14 @@ namespace PhoVodKEdit
 			};
 			item.MouseDown += TabItem_MouseDown;
 
+			/*Label label = new Label
+			{
+				Content = Screens.Count,
+				Visibility = Visibility.Hidden
+			};*/
+
 			TabControl.Items.Add(item);
+			Screens.Add(screen);
 		}
 
 		#region Theme setters

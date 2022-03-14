@@ -11,13 +11,11 @@ namespace PhoVodKEdit.Port.APS
 	public class AppliedColors : INotifyPropertyChanged
 	{
 		#region Variables
-
 		private Brush _mainColor;
 		private Brush _secondaryColor;
 		private Brush _foregroundColor;
 		private Brush _backgroundColor;
 		private Brush _borderColor;
-
 		#endregion Variables
 
 		public AppliedColors(PropertyChangedEventHandler _eventHandler)
@@ -26,7 +24,6 @@ namespace PhoVodKEdit.Port.APS
 		}
 
 		#region Properties
-
 		public Brush MainColor
 		{
 			get
@@ -96,7 +93,6 @@ namespace PhoVodKEdit.Port.APS
 
 			}
 		}
-
 		#endregion Properties
 
 		#region INotifiedProperty Block
@@ -104,12 +100,7 @@ namespace PhoVodKEdit.Port.APS
 
 		protected void OnPropertyChanged(string propertyName)
 		{
-			PropertyChangedEventHandler handler = PropertyChanged;
-
-			if (handler != null)
-			{
-				handler(this, new PropertyChangedEventArgs(propertyName));
-			}
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 		#endregion
 	}

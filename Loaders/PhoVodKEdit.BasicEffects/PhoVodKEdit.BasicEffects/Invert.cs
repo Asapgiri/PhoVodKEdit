@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using PhoVodKEdit.Port;
 using PhoVodKEdit.Port.APS;
 
@@ -49,7 +45,17 @@ namespace PhoVodKEdit.BasicEffects
 
 		public override FrameworkElement GetView()
 		{
-			throw new NotImplementedException();
+			Grid grid = new Grid();
+
+			Label lable = new Label
+			{
+				Content = "No settings to show",
+				HorizontalAlignment = HorizontalAlignment.Center,
+				VerticalAlignment = VerticalAlignment.Center
+			};
+
+			grid.Children.Add(lable);
+			return grid;
 		}
 	}
 }

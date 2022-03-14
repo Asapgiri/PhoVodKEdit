@@ -15,10 +15,7 @@ namespace PhoVodKEdit.Port.APS
 			public double Size { get; set; }
 		}
 
-		public struct LanguageDictionary
-		{
-
-		}
+		public AppliedLanguage Language { get; set; }
 
 		public AppliedColors Colors { get; set; }
 		public Fonts Font { get; set; }
@@ -40,6 +37,8 @@ namespace PhoVodKEdit.Port.APS
 				{
 					Size = Settings.Font.Size
 				};
+
+				this.Language = new AppliedLanguage("hu");
 			}
 		}
 

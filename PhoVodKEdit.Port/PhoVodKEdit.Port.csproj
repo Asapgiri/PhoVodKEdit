@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APS\AppliedColors.cs" />
+    <Compile Include="APS\AppliedLanguage.cs" />
     <Compile Include="APS\AppliedSettings.cs" />
     <Compile Include="APS\Settings.cs" />
     <Compile Include="PortEffect.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="PortScreen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\Canvas.cs" />
+    <Compile Include="Utilities\ContentFilter.cs" />
     <Compile Include="Utilities\Effect.cs" />
     <Compile Include="Utilities\Layer.cs" />
   </ItemGroup>

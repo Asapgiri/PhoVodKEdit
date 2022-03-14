@@ -78,13 +78,19 @@
         <!--<ToolBar Grid.Row="0" Background="Transparent"/>-->
         <DockPanel x:Name="Toolbar" Background="{Binding Applied.Colors.MainColor}">
             <Menu>
-                <MenuItem Header="Menu1">
-                    <MenuItem Header="MenuItem1"/>
+                <MenuItem Header="{Binding Applied.Language.MENU_FILE}">
+                    <MenuItem Header="{Binding Applied.Language.MENU_FILE_NEW}"/>
+                    <MenuItem Header="{Binding Applied.Language.MENU_FILE_OPEN}"/>
+                    <MenuItem Header="{Binding Applied.Language.MENU_FILE_SAVE}"/>
+                    <MenuItem Header="{Binding Applied.Language.MENU_FILE_SAVE_AS}"/>
+                    <MenuItem Header="{Binding Applied.Language.MENU_FILE_CLOSE}"/>
                 </MenuItem>
             </Menu>
             <Menu>
-                <MenuItem Header="Menu2">
-                    <MenuItem Header="MenuItem1"/>
+                <MenuItem Header="{Binding Applied.Language.MENU_EDIT}">
+                    <MenuItem Header="{Binding Applied.Language.MENU_EDIT_COPY}"/>
+                    <MenuItem Header="{Binding Applied.Language.MENU_EDIT_PASTE}"/>
+                    <MenuItem Header="{Binding Applied.Language.MENU_EDIT_CUT}"/>
                 </MenuItem>
             </Menu>
             <Menu>
@@ -144,7 +150,8 @@
                         <Grid Background="{Binding Applied.Colors.BackgroundColor}" Margin="0,0,0,0"/>
                     </Border>
                 </Border>
-            </TabItem>
+            </TabItem>-->
+            
         </TabControl>
 
         <Border Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" BorderThickness="1" Margin="0,3,3,0" BorderBrush="{Binding Applied.Colors.BorderColor}" Background="{Binding Applied.Colors.BackgroundColor}">
