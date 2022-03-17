@@ -13,6 +13,7 @@ using System.Windows.Media;
 using PhoVodKEdit.Loader;
 using PhoVodKEdit.Port;
 using PhoVodKEdit.Port.APS;
+using PhoVodKEdit.Port.Utilities;
 
 namespace PhoVodKEdit
 {
@@ -24,6 +25,8 @@ namespace PhoVodKEdit
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		private readonly ResourceLoader resourceLoader;
+
+		private AddEffectWindow addEffectWindow;
 
 		public AppliedSettings Applied { get; set; }
 		public List<Type> ScreenTypes { get; private set; }
@@ -54,6 +57,9 @@ namespace PhoVodKEdit
 				AddScreenToTabControl(newScreen);
 			}
 
+			if (ScreenTypes.Count > 0) {
+				SelectScreen(0);
+			}
 		}
 
 		private void AddScreenToTabControl(PortScreen screen)
@@ -62,6 +68,7 @@ namespace PhoVodKEdit
 			{
 				BorderThickness = new Thickness(3, 3, 0, 0),
 				BorderBrush = Applied.Colors.SecondaryColor,
+				Background = Applied.Colors.BackgroundColor,
 				Child = screen.GetWindow()
 			};
 
@@ -70,7 +77,6 @@ namespace PhoVodKEdit
 				Mode = BindingMode.TwoWay,
 				UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
 			});
-
 			BindingOperations.SetBinding(innerBorder, Border.BackgroundProperty, new Binding("Applied.Colors.BackgroundColor")
 			{
 				Mode = BindingMode.TwoWay,
@@ -108,6 +114,32 @@ namespace PhoVodKEdit
 			Screens.Add(screen);
 		}
 
+		private void SelectScreen(int index) {
+			LayersPanel.Children.Clear();
+			foreach (Layer layer in Screens[index].GetAllLayers()) {
+				Button btn = new Button() {
+					Content = layer.Name
+				};
+				btn.Click += (s, e) => {
+					MessageBox.Show("You selected a layer.\nSadly it is not implemented yet...");
+				};
+
+				LayersPanel.Children.Add(btn);
+			}
+
+			EffectsPanel.Children.Clear();
+			foreach (PortEffect effect in Screens[index].GetEffects()) {
+				Button btn = new Button() {
+					Content = effect.Name
+				};
+				btn.Click -= (s, e) => {
+					MessageBox.Show("You selected an effect.\nSadly it is not implemented yet...");
+				};
+
+				EffectsPanel.Children.Add(btn);
+			}
+		}
+
 		#region Theme setters
 
 		private void Button_Click(object sender, RoutedEventArgs e)
@@ -127,6 +159,8 @@ namespace PhoVodKEdit
 			Applied.Colors.ForegroundColor = new SolidColorBrush(Settings.Colors.Dark.Foreground);
 			Applied.Colors.BackgroundColor = new SolidColorBrush(Settings.Colors.Dark.Background);
 			Applied.Colors.BorderColor = new SolidColorBrush(Settings.Colors.Dark.Border);
+
+			MenuItem item = ((Toolbar.Children[0] as Menu).Items[0] as MenuItem);
 		}
 
 		private void SetLightColors()
@@ -142,7 +176,10 @@ namespace PhoVodKEdit
 
 		private void TabItem_MouseDown(object sender, MouseButtonEventArgs e)
 		{
-			if (e.MiddleButton == MouseButtonState.Pressed)
+			if (e.LeftButton == MouseButtonState.Pressed) {
+				SelectScreen(TabControl.Items.IndexOf(sender));
+			}
+			else if (e.MiddleButton == MouseButtonState.Pressed)
 			{
 				TabControl.Items.Remove(sender as TabItem);
 			}
@@ -166,6 +203,27 @@ namespace PhoVodKEdit
 		private void EffectsGrid_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			SetMaxSizes(EffectsGrid);
+		}
+
+		private void NewLayer(object sender, RoutedEventArgs e) {
+			int index = TabControl.Items.IndexOf(TabControl.SelectedItem);
+			Screens[index].AddLayer();
+			SelectScreen(index);
+
+		}
+
+		private void AddEffect(object sender, RoutedEventArgs e) {
+			int index = TabControl.Items.IndexOf(TabControl.SelectedItem);
+			if (addEffectWindow == null || addEffectWindow.IsClosed) {
+				addEffectWindow = new AddEffectWindow(Applied, EffectTypes, (int i) => {
+					Screens[index].AddEffect(resourceLoader.CreateInstance(EffectTypes[i]) as PortEffect);
+					SelectScreen(index);
+				});
+				addEffectWindow.Show();
+			}
+			else {
+				addEffectWindow.Focus();
+			}
 		}
 	}
 }

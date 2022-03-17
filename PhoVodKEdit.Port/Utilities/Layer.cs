@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace PhoVodKEdit.Port.Utilities
-{
+namespace PhoVodKEdit.Port.Utilities {
 	public class Layer
 	{
-		public List<Effect> Effects { get; set; }
+		public List<PortEffect> Effects { get; set; } = new List<PortEffect>();
+
+		public string Name { get; set; }
+
+		public Layer(string name) { 
+			Name = name;
+		}
 	}
 }

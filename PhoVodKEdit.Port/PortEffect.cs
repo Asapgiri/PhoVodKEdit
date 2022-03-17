@@ -10,6 +10,8 @@ namespace PhoVodKEdit.Port
 	{
 		protected Stopwatch stopwatch;
 
+		public bool Rendered { get; set; } = true;
+
 		public PortEffect(AppliedSettings _applied) : base(_applied) {
 			stopwatch = new Stopwatch();
 		}
