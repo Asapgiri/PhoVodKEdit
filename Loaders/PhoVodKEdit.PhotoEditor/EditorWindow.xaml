@@ -8,9 +8,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid Background="{Binding Applied.Colors.MainColor, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}">
         <ScrollViewer HorizontalScrollBarVisibility="auto" VerticalScrollBarVisibility="Auto">
-            <Canvas x:Name="MainCanvas" Width="500" Height="400" Background="White">
+            <local:PictureCanvas x:Name="Canvas" Width="500" Height="400" Background="White">
 
-            </Canvas>
+            </local:PictureCanvas>
         </ScrollViewer>
     </Grid>
 </UserControl>

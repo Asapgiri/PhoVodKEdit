@@ -13,34 +13,34 @@ namespace PhoVodKEdit.BasicEffects
 		{
 		}
 
-		public override void Apply(Bitmap image, PixelFormat pixelFormat = PixelFormat.Format24bppRgb)
+		protected override unsafe void Implement(Bitmap image, BitmapData bitmapData, int stride, System.IntPtr Scan0)
 		{
-			BitmapData bitmapData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadWrite, pixelFormat);
-			int stride = bitmapData.Stride;
-			System.IntPtr Scan0 = bitmapData.Scan0;
+			byte* p = (byte*)(void*)Scan0;
+			byte* q = p + 1;
+			byte* r = q + 1;
 
-			stopwatch.Reset();
-			stopwatch.Start();
-
-			unsafe
+			int nOffset = stride - image.Width * 3;
+			int mWidth = image.Height * image.Width + image.Height * nOffset;
+			int i = 0;
+			for (int y = 0; y < mWidth; ++y)
 			{
-				byte* p = (byte*)(void*)Scan0;
-				int nOffset = stride - image.Width * 3;
-				int nWidth = image.Width * 3;
-				for (int y = 0; y < image.Height; ++y)
-				{
-					for (int x = 0; x < nWidth; ++x)
-					{
-						p[0] = (byte)(255 - p[0]);
-						++p;
-					}
-					p += nOffset;
-				}
+				//for (int x = 0; x < nWidth; ++x)
+				//{
+					p[0] = (byte)(255 - p[0]);
+					q[0] = (byte)(255 - q[0]);
+					r[0] = (byte)(255 - r[0]);
+					p += 3;
+					q += 3;
+					r += 3;
+				//if (i >= image.Width) {
+				//	i = 0;
+				//	p += nOffset;
+				//	q += nOffset;
+				//	r += nOffset;
+				//}
+				//}
+				//p += nOffset;
 			}
-
-			stopwatch.Stop();
-
-			image.UnlockBits(bitmapData);
 		}
 
 		public override FrameworkElement GetView()

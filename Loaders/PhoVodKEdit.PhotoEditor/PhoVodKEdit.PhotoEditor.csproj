@@ -50,6 +50,7 @@
     <Compile Include="EditorWindow.xaml.cs">
       <DependentUpon>EditorWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PictureCanvas.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

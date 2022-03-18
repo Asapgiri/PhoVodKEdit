@@ -119,5 +119,9 @@
       <Name>PhoVodKEdit.Port</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Pics\ceye.png" />
+    <EmbeddedResource Include="Pics\eye.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

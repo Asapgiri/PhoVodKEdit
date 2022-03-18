@@ -18,7 +18,7 @@ namespace PhoVodKEdit.Port
 
 		protected int SelectedLayer { get; set; } = 0;
 
-		protected ContentFilter ContentFilter { get; set; }
+		public ContentFilter ContentFilter { get; set; }
 		#endregion Properties
 		
 		#region Ctor
@@ -26,9 +26,9 @@ namespace PhoVodKEdit.Port
 		{
 			ContentFilter = new ContentFilter()
 			{
-				InitDirectory = Directory.GetCurrentDirectory(),
-				Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*",
-				RestoreDirectory = true
+				InitDirectory = string.Empty,
+				Filter = "Pictures (*.jpg)|*.jpg|All files (*.*)|*.*",
+				RestoreDirectory = false
 			};
 
 			Layers.Add(new Layer("Layer 1"));
@@ -70,6 +70,10 @@ namespace PhoVodKEdit.Port
 			return effects;
 		}
 
+		public virtual void RemoveEffect(int index) {
+			Layers[SelectedLayer].Effects.RemoveAt(index);
+		}
+
 		public virtual IList<Layer> GetAllLayers() {
 			return Layers;
 		}
@@ -107,5 +111,6 @@ namespace PhoVodKEdit.Port
 
 		public abstract Window CreateNewContent();
 
+		public abstract void ApplyEffects();
 	}
 }

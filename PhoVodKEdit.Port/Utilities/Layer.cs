@@ -7,6 +7,8 @@ namespace PhoVodKEdit.Port.Utilities {
 
 		public string Name { get; set; }
 
+		public bool Rendered { get; set; } = true;
+
 		public Layer(string name) { 
 			Name = name;
 		}

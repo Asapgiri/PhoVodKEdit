@@ -17,11 +17,26 @@ namespace PhoVodKEdit.Port
 		}
 
 		public abstract FrameworkElement GetView();
-		public abstract void Apply(Bitmap image, PixelFormat pixelFormat = PixelFormat.Format24bppRgb);
+		public void Apply(Bitmap image, PixelFormat pixelFormat = PixelFormat.Format24bppRgb) {
+			BitmapData bitmapData = image.LockBits(new Rectangle(0, 0, image.Width, image.Height), ImageLockMode.ReadWrite, pixelFormat);
+			int stride = bitmapData.Stride;
+			System.IntPtr Scan0 = bitmapData.Scan0;
 
-		public long GetProcessTinmeMs()
+			stopwatch.Reset();
+			stopwatch.Start();
+
+			Implement(image, bitmapData, bitmapData.Stride, bitmapData.Scan0);
+
+			stopwatch.Stop();
+
+			image.UnlockBits(bitmapData);
+		}
+
+		protected abstract unsafe void Implement(Bitmap image, BitmapData bitmapData, int stride, System.IntPtr Scan0);
+
+		public double GetProcessTinmeMs()
 		{
-			return stopwatch.ElapsedMilliseconds;
+			return stopwatch.Elapsed.TotalMilliseconds;
 		}
 	}
 }

@@ -49,8 +49,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AverageFilter.cs" />
+    <Compile Include="FeatureDetection.cs" />
+    <Compile Include="GammaTransformation.cs" />
+    <Compile Include="GaussFilter.cs" />
+    <Compile Include="Grayscale.cs" />
+    <Compile Include="Histogram.cs" />
+    <Compile Include="HistogramCorrection.cs" />
     <Compile Include="Invert.cs" />
+    <Compile Include="LaplaceEdgeDetection.cs" />
+    <Compile Include="LogaritmicTransformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SobelEdgeDetection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\PhoVodKEdit.Port\PhoVodKEdit.Port.csproj">
