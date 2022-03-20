@@ -2,20 +2,28 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows;
-using PhoVodKEdit.Port;
+using PhoVodKEdit.BasicEffects.ABS;
 using PhoVodKEdit.Port.APS;
 
 namespace PhoVodKEdit.BasicEffects {
-	internal class GaussFilter : PortEffect {
+	internal class GaussFilter : MascingPortEffect {
 		public GaussFilter(AppliedSettings _applied) : base(_applied) {
+			Factor = 16;
+			//NeedScaling = true;
 		}
 
-		public override FrameworkElement GetView() {
-			throw new NotImplementedException();
-		}
-
-		protected override void Implement(Bitmap image, BitmapData bitmapData, int stride, IntPtr Scan0) {
-			throw new NotImplementedException();
+		protected override double[] CalculateMask() {
+			return new double[] {
+				//.0113, .0838, .0113,
+				//.0838, .6193, .0838,
+				//.0113, .0838, .0113
+				1, 2, 1,
+				2, 4, 2,
+				1, 2, 1
+				//.0625,  .125, .0625,
+				// .125,   .25,  .125,
+				//.0625,  .125, .0625
+			};
 		}
 	}
 }

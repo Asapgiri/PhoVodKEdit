@@ -27,7 +27,7 @@ namespace PhoVodKEdit.Port
 			ContentFilter = new ContentFilter()
 			{
 				InitDirectory = string.Empty,
-				Filter = "Pictures (*.jpg)|*.jpg|All files (*.*)|*.*",
+				Filter = "Pictures |*.jpg;*.png|All files |*.*",
 				RestoreDirectory = false
 			};
 
@@ -46,7 +46,7 @@ namespace PhoVodKEdit.Port
 			return Layers[SelectedLayer].Effects;
 		}
 
-		public virtual void AddEffect(PortEffect effect)
+		public virtual void AddEffect(PortEffect effect, int position = -1)
 		{
 			if (effect == null) {
 				throw new EffectIsEmptyException();
@@ -55,7 +55,8 @@ namespace PhoVodKEdit.Port
 				throw new LayerCounterNotSetProperlyException();
 			}
 
-			Layers[SelectedLayer].Effects.Add(effect);
+			if (position >= 0) Layers[SelectedLayer].Effects.Insert(position, effect);
+			else Layers[SelectedLayer].Effects.Add(effect);
 		}
 
 		public virtual IList<PortEffect> GetAllEffects(bool onlyActive = true) {
@@ -101,6 +102,39 @@ namespace PhoVodKEdit.Port
 			}
 		}
 
+		public bool HasEffect(string name, string before = null) {
+			if (before != null) {
+				foreach (PortEffect effect in GetAllEffects()) {
+					if (effect.Name == before) {
+						return false;
+					}
+					else if (effect.Name == name) {
+						effect.Rendered = true;
+						return true;
+					}
+				}
+			}
+			else {
+				foreach (PortEffect effect in GetAllEffects()) {
+					if (effect.Name == name) {
+						effect.Rendered = true;
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		public PortEffect GetEffect(string name) {
+			foreach (PortEffect effect in GetAllEffects()) {
+				if (effect.Name == name) {
+					return effect;
+				}
+			}
+
+			return null;
+		}
 
 		public UserControl GetWindow()
 		{
@@ -112,5 +146,9 @@ namespace PhoVodKEdit.Port
 		public abstract Window CreateNewContent();
 
 		public abstract void ApplyEffects();
+
+		public abstract void Refresh();
+
+		public virtual FrameworkElement GetStatusbarContent() { return null; }
 	}
 }

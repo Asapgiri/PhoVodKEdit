@@ -48,6 +48,12 @@
             <Setter Property="Foreground" Value="{Binding Applied.Colors.ForegroundColor}" />
             <Setter Property="MinHeight" Value="30" />
             <Setter Property="FontSize" Value="{Binding Applied.Font.Size}" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{Binding Applied.Colors.SecondaryColor}" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="{x:Type Menu}" TargetType="{x:Type Menu}">
@@ -209,7 +215,7 @@
                     <MenuItem Header="{Binding Applied.Language.MENU_FILE_OPEN}" Click="MenuItem_OpenClick"/>
                     <MenuItem Header="{Binding Applied.Language.MENU_FILE_SAVE}"/>
                     <MenuItem Header="{Binding Applied.Language.MENU_FILE_SAVE_AS}"/>
-                    <MenuItem Header="{Binding Applied.Language.MENU_FILE_CLOSE}"/>
+                    <MenuItem Header="{Binding Applied.Language.MENU_FILE_CLOSE}" Click="MenuItem_CloseClick"/>
                 </MenuItem>
             </Menu>
             <Menu>
@@ -231,7 +237,7 @@
             </Menu>
         </DockPanel>
 
-        <StatusBar Grid.Row="4" Grid.ColumnSpan="3" Background="{Binding Applied.Colors.BackgroundColor}" Margin="0,0,0.4,-0.2"/>
+        <StatusBar x:Name="StatusBar" Grid.Row="4" Grid.ColumnSpan="3" Background="{Binding Applied.Colors.BackgroundColor}" Margin="0,0,0.4,-0.2" Padding="0"/>
 
         <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Width="8"
                       VerticalAlignment="Stretch" HorizontalAlignment="Center"

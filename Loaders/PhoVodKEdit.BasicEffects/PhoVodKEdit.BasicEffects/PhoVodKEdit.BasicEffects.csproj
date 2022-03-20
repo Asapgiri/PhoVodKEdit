@@ -38,17 +38,22 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABS\MascingPortEffect.cs" />
     <Compile Include="AverageFilter.cs" />
     <Compile Include="FeatureDetection.cs" />
     <Compile Include="GammaTransformation.cs" />
@@ -60,12 +65,18 @@
     <Compile Include="LaplaceEdgeDetection.cs" />
     <Compile Include="LogaritmicTransformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ABS\ScaleablePortEffect.cs" />
     <Compile Include="SobelEdgeDetection.cs" />
+    <Compile Include="ABS\AfterlockPortEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\PhoVodKEdit.Port\PhoVodKEdit.Port.csproj">
       <Project>{86A4D779-7275-4C2C-9E6D-DCF78D3291B3}</Project>
       <Name>PhoVodKEdit.Port</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\PhoVodKEdit\PhoVodKEdit.csproj">
+      <Project>{fdc520f9-dd11-4153-87f8-96a96130ebe1}</Project>
+      <Name>PhoVodKEdit</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

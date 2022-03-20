@@ -1,21 +1,21 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Windows;
-using PhoVodKEdit.Port;
+﻿using PhoVodKEdit.BasicEffects.ABS;
 using PhoVodKEdit.Port.APS;
 
 namespace PhoVodKEdit.BasicEffects {
-	internal class LaplaceEdgeDetection : PortEffect {
+	internal class LaplaceEdgeDetection : MascingPortEffect {
 		public LaplaceEdgeDetection(AppliedSettings _applied) : base(_applied) {
+			//Factor = 1;
 		}
 
-		public override FrameworkElement GetView() {
-			throw new NotImplementedException();
-		}
-
-		protected override void Implement(Bitmap image, BitmapData bitmapData, int stride, IntPtr Scan0) {
-			throw new NotImplementedException();
+		protected override double[] CalculateMask() {
+			return new double[] {
+				 0, -1,  0,
+				-1,  4, -1,
+				 0, -1,  0
+				//-1, -1, -1,
+				//-1,  8, -1,
+				//-1, -1, -1
+			};
 		}
 	}
 }

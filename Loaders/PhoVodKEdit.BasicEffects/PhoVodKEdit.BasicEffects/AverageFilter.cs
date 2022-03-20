@@ -1,21 +1,22 @@
-﻿using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Windows;
-using PhoVodKEdit.Port;
+﻿using System.Windows;
+using PhoVodKEdit.BasicEffects.ABS;
 using PhoVodKEdit.Port.APS;
 
 namespace PhoVodKEdit.BasicEffects {
-	internal class AverageFilter : PortEffect {
+	internal class AverageFilter : MascingPortEffect {
 		public AverageFilter(AppliedSettings _applied) : base(_applied) {
 		}
 
 		public override FrameworkElement GetView() {
-			throw new NotImplementedException();
+			return null;
 		}
 
-		protected override unsafe void Implement(Bitmap image, BitmapData bitmapData, int stride, IntPtr Scan0) {
-			throw new NotImplementedException();
+		protected override double[] CalculateMask() {
+			return new double[] {
+				1, 1, 1,
+				1, 1, 1,
+				1, 1, 1
+			};
 		}
 	}
 }

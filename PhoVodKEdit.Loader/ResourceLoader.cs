@@ -50,19 +50,17 @@ namespace PhoVodKEdit.Loader
 			List<Type> ret = new List<Type>();
 			others = new List<Type>();
 
-			foreach (string dllPath in lf)
-			{
+			foreach (string dllPath in lf) {
 				var DLL = Assembly.LoadFile(Path.Combine(Directory.GetCurrentDirectory(), dllPath));
 
-				foreach (Type type in DLL.GetTypes())
-				{
-					if (type.IsSubclassOf(typeof(T)))
-					{
-						ret.Add(type);
-					}
-					else if (type.IsSubclassOf(typeof(Other)))
-					{
-						others.Add(type);
+				foreach (Type type in DLL.GetTypes()) {
+					if (!type.IsAbstract) {
+						if (type.IsSubclassOf(typeof(T))) {
+							ret.Add(type);
+						}
+						else if (type.IsSubclassOf(typeof(Other))) {
+							others.Add(type);
+						}
 					}
 				}
 			}

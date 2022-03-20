@@ -38,7 +38,7 @@ namespace PhoVodKEdit.Port.APS
 					Size = Settings.Font.Size
 				};
 
-				this.Language = new AppliedLanguage("hu");
+				this.Language = new AppliedLanguage("en");
 			}
 		}
 

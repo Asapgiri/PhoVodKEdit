@@ -12,8 +12,12 @@ namespace PhoVodKEdit.PhotoEditor {
 	internal class PictureCanvas : Canvas {
 		BitmapImage image;
 
+		public PictureCanvas() {
+			RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.NearestNeighbor);
+		}
+
 		protected override void OnRender(DrawingContext dc) {
-			if (image != null) dc.DrawImage(image, new Rect(0, 0, image.PixelWidth, image.PixelHeight));
+			if (image != null) dc.DrawImage(image, new Rect(0, 0, Width, Height));
 		}
 
 		public void SetImage(Bitmap _image) {

@@ -18,7 +18,7 @@ namespace PhoVodKEdit.BasicEffects {
 			throw new NotImplementedException();
 		}
 
-		protected override void Implement(Bitmap image, BitmapData bitmapData, int stride, IntPtr Scan0) {
+		protected override void Implement(Bitmap image, PixelFormat pixelFormat, BitmapData bitmapData, int stride, IntPtr Scan0) {
 			throw new NotImplementedException();
 		}
 	}

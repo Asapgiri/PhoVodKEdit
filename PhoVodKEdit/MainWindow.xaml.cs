@@ -30,7 +30,7 @@ namespace PhoVodKEdit
 		private readonly ResourceLoader resourceLoader;
 		private AddEffectWindow addEffectWindow;
 
-		private int SelectedScreen { get; set; } = -1;
+		public int SelectedScreen { get; set; } = -1;
 
 		public AppliedSettings Applied { get; set; }
 		public List<Type> ScreenTypes { get; private set; }
@@ -120,7 +120,7 @@ namespace PhoVodKEdit
 			Screens.Add(screen);
 		}
 
-		private void SelectScreen(int index) {
+		public void SelectScreen(int index) {
 			LayersPanel.Children.Clear();
 			EffectsPanel.Children.Clear();
 
@@ -132,16 +132,20 @@ namespace PhoVodKEdit
 
 			Screens[index].ApplyEffects();
 
+			StatusBar.Items.Clear();
+			StatusBar.Items.Add(Screens[index].GetStatusbarContent());
+
 			foreach (Layer layer in Screens[index].GetAllLayers()) {
 				Grid grid = new Grid();
 				grid.ColumnDefinitions.Add(new ColumnDefinition());
 				grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(35) });
 
+				#region Buttons
 				Button btn = new Button() {
 					Content = layer.Name
 				};
 				btn.Click += (s, e) => {
-					int i = LayersPanel.Children.IndexOf(s as Button);
+					int i = LayersPanel.Children.IndexOf((s as Button).Parent as Grid);
 					Screens[SelectedScreen].SelectLayer(i);
 					SelectScreen(SelectedScreen);
 				};
@@ -153,12 +157,13 @@ namespace PhoVodKEdit
 				};
 				closebtn.MaxHeight = 35;
 				closebtn.Click += (s, e) => {
-					int i = LayersPanel.Children.IndexOf(s as Button);
-					//Screens[SelectedScreen].Remo(i);
+					int i = LayersPanel.Children.IndexOf((s as Button).Parent as Grid);
+					//Screens[SelectedScreen].RemoveLayer(i);
 					SelectScreen(SelectedScreen);
 				};
 				grid.Children.Add(closebtn);
 				Grid.SetColumn(closebtn, 1);
+				#endregion Buttons
 
 				LayersPanel.Children.Add(grid);
 			}
@@ -169,6 +174,9 @@ namespace PhoVodKEdit
 				grid.ColumnDefinitions.Add(new ColumnDefinition());
 				//grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0, GridUnitType.Auto)});
 				grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(35) });
+
+				grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength() });
+				grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength() });
 
 				#region Buttons
 				Button renderredbtn = new Button() {
@@ -211,6 +219,15 @@ namespace PhoVodKEdit
 				grid.Children.Add(closebtn);
 				Grid.SetColumn(closebtn, 2);
 				#endregion Buttons
+
+				#region GetEffectView
+				var view = effect.GetView();
+				if (view != null) {
+					Grid.SetRow(view, 1);
+					Grid.SetColumnSpan(view, 3);
+					grid.Children.Add(view);
+				}
+				#endregion GetEffectView
 
 				#region Diagnostics
 				Label lbl = new Label() {
@@ -266,7 +283,10 @@ namespace PhoVodKEdit
 		{
 			if (e.MiddleButton == MouseButtonState.Pressed)
 			{
-				if (TabControl.Items.IndexOf(sender as TabItem) < TabControl.Items.Count - 1) TabControl.Items.Remove(sender as TabItem);
+				if (TabControl.Items.IndexOf(sender as TabItem) < TabControl.Items.Count - 1) {
+					Screens.RemoveAt(TabControl.Items.IndexOf(sender));
+					TabControl.Items.Remove(sender as TabItem);
+				}
 				if (TabControl.Items.Count > 1) {
 					SelectedScreen = TabControl.Items.IndexOf(TabControl.SelectedItem);
 					SelectScreen(SelectedScreen);
@@ -325,19 +345,23 @@ namespace PhoVodKEdit
 		}
 
 		private void MenuItem_OpenClick(object sender, RoutedEventArgs e) {
-			var dialog = new OpenFileDialog();
 			PortScreen screen = Screens[SelectedScreen];
 			ContentFilter cf = screen.ContentFilter;
 
-			dialog.InitialDirectory = cf.InitDirectory;
-			dialog.Filter = cf.Filter;
-			dialog.RestoreDirectory = cf.RestoreDirectory;
+			var dialog = new OpenFileDialog() {
+				InitialDirectory = cf.InitDirectory,
+				Filter = cf.Filter,
+				RestoreDirectory = cf.RestoreDirectory,
+				DereferenceLinks = false
+			};
+			dialog.FileOk += (s, err) => screen.SetContent(dialog.FileName);
+ 
+			dialog.ShowDialog();
+		}
 
-			bool? result = dialog.ShowDialog();
-
-			if (result == true) {
-				screen.SetContent(dialog.FileName);
-			}
+		private void MenuItem_CloseClick(object sender, RoutedEventArgs e) {
+			Screens.RemoveAt(TabControl.Items.IndexOf(TabControl.SelectedItem));
+			TabControl.Items.Remove(TabControl.SelectedItem);
 		}
 	}
 }
