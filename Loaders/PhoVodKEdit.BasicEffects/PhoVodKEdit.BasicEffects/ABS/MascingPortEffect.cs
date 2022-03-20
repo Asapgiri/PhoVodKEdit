@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Runtime.ExceptionServices;
+using System.Threading.Tasks;
 using System.Windows;
 using PhoVodKEdit.Port.APS;
 
@@ -9,6 +11,8 @@ namespace PhoVodKEdit.BasicEffects.ABS {
 		protected bool NeedScaling { get; set; } = false;
 		public int Factor { get; set; } = 9;
 		public int Offset { get; set; } = 0;
+		public int ThreadCountMultiplyer { get; set; } = 3;
+		public bool IsThreadCountMultiplyerFixed { get; set; } = false;
 
 		protected MascingPortEffect(AppliedSettings _applied) : base(_applied) {
 		}
@@ -30,30 +34,41 @@ namespace PhoVodKEdit.BasicEffects.ABS {
 			byte* po = (byte*)(void*)originalScan0;
 
 			double[] mask = CalculateMask();
-			
+
 			#region Middle
-			int cWidth = mWidth - 2 * nWidth - nOffset - nextPixel;
+			if (!IsThreadCountMultiplyerFixed) {
+				ThreadCountMultiplyer = (int)Math.Sqrt(mWidth / 518400); // number assures that there is 4 threads on 1080p
+			}
+
+			int cWidth = (mWidth - 2 * nWidth + nextPixel) >> ThreadCountMultiplyer;
 			p = p + nWidth * nextPixel + nextPixel;
 			po = po + nWidth * nextPixel + nextPixel;
+			if (ThreadCountMultiplyer == 0) {
+				CalculateMiddleParts(p, po, nextPixel, mask, nWidth, cWidth);
+			}
+			else {
+				Task[] tasks = new Task[(int)Math.Pow(2, ThreadCountMultiplyer)];
+				{
+					byte* x = p;
+					byte* y = po;
+					tasks[0] = new Task(() => CalculateMiddleParts(x, y, nextPixel, mask, nWidth, cWidth));
+				}
 
-			//middle parts
-			for (int i = 0; i < cWidth; i++) {
-				byte* left = po - nextPixel;
-				byte* right = po + nextPixel;
-				byte* up = po - nWidth * nextPixel;
-				byte* down = po + nWidth * nextPixel;
+				for (int i = 1; i < tasks.Length; i++) {
+					p = p + cWidth * nextPixel;
+					po = po + cWidth * nextPixel;
+					{
+						byte* x = p;
+						byte* y = po;
+						tasks[i] = new Task(() => CalculateMiddleParts(x, y, nextPixel, mask, nWidth, cWidth));
+					}
+				}
 
-				byte* upleft = up - nextPixel;
-				byte* upright = up + nextPixel;
-				byte* downleft = down - nextPixel;
-				byte* downright = down + nextPixel;
+				for (int i = 0; i < tasks.Length; i++) {
+					tasks[i].Start();
+				}
 
-				p[0] = (byte)((double)(po[0] * mask[4] + left[0] * mask[3] + right[0] * mask[5] + up[0] * mask[1] + down[0] * mask[7] + upleft[0] * mask[0] + upright[0] * mask[2] + downleft[0] * mask[6] + downright[0] * mask[8]) / Factor + Offset);
-				p[1] = (byte)((double)(po[1] * mask[4] + left[1] * mask[3] + right[1] * mask[5] + up[1] * mask[1] + down[1] * mask[7] + upleft[1] * mask[0] + upright[1] * mask[2] + downleft[1] * mask[6] + downright[1] * mask[8]) / Factor + Offset);
-				p[2] = (byte)((double)(po[2] * mask[4] + left[2] * mask[3] + right[2] * mask[5] + up[2] * mask[1] + down[2] * mask[7] + upleft[2] * mask[0] + upright[2] * mask[2] + downleft[2] * mask[6] + downright[2] * mask[8]) / Factor + Offset);
-
-				p += nextPixel;
-				po += nextPixel;
+				Task.WaitAll(tasks);
 			}
 			#endregion Middle
 
@@ -212,6 +227,60 @@ namespace PhoVodKEdit.BasicEffects.ABS {
 				#endregion Bottom Right
 			}
 			#endregion Corners
+		}
+
+		[HandleProcessCorruptedStateExceptions]
+		private unsafe void CalculateMiddleParts(byte* p, byte* po, int nextPixel, double[] mask, int nWidth, int cWidth) {
+			try {
+				for (int i = 0; i < cWidth; i++) {
+					//int topLeft = i * nextPixel;
+					//int top = topLeft + nextPixel;
+					//int topRight = top + nextPixel;
+
+					//int left = topLeft + stride;
+					//int pixel = left + nextPixel;
+					//int right = pixel + nextPixel;
+
+					//int bottomLeft = left + stride;
+					//int bottom = bottomLeft + nextPixel;
+					//int bottomRight = bottom + nextPixel;
+
+
+
+					//p[pixel] = (byte)((double)(po[topLeft] * mask[0] + po[top] * mask[1] + po[topRight] * mask[2]
+					//						 + po[left] * mask[3] + po[pixel] * mask[4] + po[right] * mask[5]
+					//						 + po[bottomLeft] * mask[6] + po[bottom] * mask[7] + po[bottomRight] * mask[8])
+					//						 / Factor + Offset);
+
+					//p[pixel + 1] = (byte)((double)(po[topLeft + 1] * mask[0] + po[top + 1] * mask[1] + po[topRight + 1] * mask[2]
+					//							 + po[left + 1] * mask[3] + po[pixel + 1] * mask[4] + po[right + 1] * mask[5]
+					//							 + po[bottomLeft + 1] * mask[6] + po[bottom + 1] * mask[7] + po[bottomRight + 1] * mask[8])
+					//							 / Factor + Offset);
+
+					//p[pixel + 2] = (byte)((double)(po[topLeft + 2] * mask[0] + po[top + 2] * mask[1] + po[topRight + 2] * mask[2]
+					//							 + po[left + 2] * mask[3] + po[pixel + 2] * mask[4] + po[right + 2] * mask[5]
+					//							 + po[bottomLeft + 2] * mask[6] + po[bottom + 2] * mask[7] + po[bottomRight + 2] * mask[8])
+					//							 / Factor + Offset);
+
+					byte* left = po - nextPixel;
+					byte* right = po + nextPixel;
+					byte* up = po - nWidth * nextPixel;
+					byte* down = po + nWidth * nextPixel;
+
+					byte* upleft = up - nextPixel;
+					byte* upright = up + nextPixel;
+					byte* downleft = down - nextPixel;
+					byte* downright = down + nextPixel;
+
+					p[0] = (byte)((double)(po[0] * mask[4] + left[0] * mask[3] + right[0] * mask[5] + up[0] * mask[1] + down[0] * mask[7] + upleft[0] * mask[0] + upright[0] * mask[2] + downleft[0] * mask[6] + downright[0] * mask[8]) / Factor + Offset);
+					p[1] = (byte)((double)(po[1] * mask[4] + left[1] * mask[3] + right[1] * mask[5] + up[1] * mask[1] + down[1] * mask[7] + upleft[1] * mask[0] + upright[1] * mask[2] + downleft[1] * mask[6] + downright[1] * mask[8]) / Factor + Offset);
+					p[2] = (byte)((double)(po[2] * mask[4] + left[2] * mask[3] + right[2] * mask[5] + up[2] * mask[1] + down[2] * mask[7] + upleft[2] * mask[0] + upright[2] * mask[2] + downleft[2] * mask[6] + downright[2] * mask[8]) / Factor + Offset);
+
+					p += nextPixel;
+					po += nextPixel;
+				}
+			}
+			catch (Exception ex) { }
 		}
 
 		protected abstract double[] CalculateMask();
