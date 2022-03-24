@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -130,45 +127,48 @@ namespace PhoVodKEdit
 				return;
 			}
 
-			Screens[index].ApplyEffects();
-
-			StatusBar.Items.Clear();
+            StatusBar.Items.Clear();
 			StatusBar.Items.Add(Screens[index].GetStatusbarContent());
 
-			foreach (Layer layer in Screens[index].GetAllLayers()) {
-				Grid grid = new Grid();
-				grid.ColumnDefinitions.Add(new ColumnDefinition());
-				grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(35) });
+			//Task.Factory.StartNew(() => {
+				foreach (Layer layer in Screens[index].GetAllLayers()) {
+					Grid grid = new Grid();
+					grid.ColumnDefinitions.Add(new ColumnDefinition());
+					grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(35) });
 
-				#region Buttons
-				Button btn = new Button() {
-					Content = layer.Name
-				};
-				btn.Click += (s, e) => {
-					int i = LayersPanel.Children.IndexOf((s as Button).Parent as Grid);
-					Screens[SelectedScreen].SelectLayer(i);
-					SelectScreen(SelectedScreen);
-				};
-				grid.Children.Add(btn);
-				Grid.SetColumn(btn, 0);
+					#region Buttons
+					Button btn = new Button() {
+						Content = layer.Name
+					};
+					btn.Click += (s, e) => {
+						int i = LayersPanel.Children.IndexOf((s as Button).Parent as Grid);
+						Screens[SelectedScreen].SelectLayer(i);
+						SelectScreen(SelectedScreen);
+						//ApplyEffects();
+					};
+					grid.Children.Add(btn);
+					Grid.SetColumn(btn, 0);
 
-				Button closebtn = new Button() {
-					Content = "X"
-				};
-				closebtn.MaxHeight = 35;
-				closebtn.Click += (s, e) => {
-					int i = LayersPanel.Children.IndexOf((s as Button).Parent as Grid);
-					//Screens[SelectedScreen].RemoveLayer(i);
-					SelectScreen(SelectedScreen);
-				};
-				grid.Children.Add(closebtn);
-				Grid.SetColumn(closebtn, 1);
-				#endregion Buttons
+					Button closebtn = new Button() {
+						Content = "X"
+					};
+					closebtn.MaxHeight = 35;
+					closebtn.Click += (s, e) => {
+						int i = LayersPanel.Children.IndexOf((s as Button).Parent as Grid);
+						//Screens[SelectedScreen].RemoveLayer(i);
+						ApplyEffects();
 
-				LayersPanel.Children.Add(grid);
-			}
+					};
+					grid.Children.Add(closebtn);
+					Grid.SetColumn(closebtn, 1);
+					#endregion Buttons
 
-			foreach (PortEffect effect in Screens[index].GetEffects()) {
+					LayersPanel.Children.Add(grid);
+				}
+			//});
+
+			//Task.Factory.StartNew(() => {
+				foreach (PortEffect effect in Screens[index].GetEffects()) {
 				Grid grid = new Grid();
 				grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(35) });
 				grid.ColumnDefinitions.Add(new ColumnDefinition());
@@ -192,7 +192,7 @@ namespace PhoVodKEdit
 					else {
 						(s as Button).Content = new Image { Source = BitmapFrame.Create(Assembly.GetExecutingAssembly().GetManifestResourceStream("PhoVodKEdit.Pics.ceye.png"), BitmapCreateOptions.None, BitmapCacheOption.OnLoad) };
 					}
-					SelectScreen(SelectedScreen);
+					ApplyEffects();
 				};
 				grid.Children.Add(renderredbtn);
 				Grid.SetColumn(renderredbtn, 0);
@@ -243,6 +243,17 @@ namespace PhoVodKEdit
 
 				EffectsPanel.Children.Add(grid);
 			}
+			//});
+		}
+
+		private void ApplyEffects() {
+			Task.Factory.StartNew(() => {
+				Screens[SelectedScreen].Apply();
+			}).ContinueWith(r => {
+				Screens[SelectedScreen].Refresh();
+				TotalEffectTimerLabel.Content = string.Format("{0:0.00}ms", Screens[SelectedScreen].GetProcessTinmeMs());
+				SelectScreen(SelectedScreen);
+			}, TaskScheduler.FromCurrentSynchronizationContext());
 		}
 
 		#region Theme setters
@@ -323,7 +334,6 @@ namespace PhoVodKEdit
 			int index = TabControl.Items.IndexOf(TabControl.SelectedItem);
 			Screens[index].AddLayer();
 			SelectScreen(index);
-
 		}
 
 		private void AddEffect(object sender, RoutedEventArgs e) {
@@ -331,7 +341,7 @@ namespace PhoVodKEdit
 			if (addEffectWindow == null || addEffectWindow.IsClosed) {
 				addEffectWindow = new AddEffectWindow(Applied, EffectTypes, (int i) => {
 					Screens[index].AddEffect(resourceLoader.CreateInstance(EffectTypes[i]) as PortEffect);
-					SelectScreen(index);
+					ApplyEffects();
 				});
 				addEffectWindow.Show();
 			}

@@ -46,7 +46,7 @@
         <Style TargetType="Button">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="{Binding Applied.Colors.ForegroundColor}" />
-            <Setter Property="MinHeight" Value="30" />
+            <!--<Setter Property="MinHeight" Value="30" />-->
             <Setter Property="FontSize" Value="{Binding Applied.Font.Size}" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -191,6 +191,65 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="SemiTransparentThinScrollViewer" TargetType="{x:Type ScrollViewer}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <ScrollContentPresenter Grid.Column="0"/>
+
+                            <ScrollBar Grid.Column="1"
+                     Opacity="0.5"
+                     Name="PART_VerticalScrollBar"
+                     Value="{TemplateBinding VerticalOffset}"
+                     Maximum="{TemplateBinding ScrollableHeight}"
+                     ViewportSize="{TemplateBinding ViewportHeight}"
+                     Width="10"
+                     MinWidth="10"
+                     Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+
+                            <ScrollBar Name="PART_HorizontalScrollBar"
+                     Opacity="0.5"
+                     Orientation="Horizontal"
+                     Grid.Row="1"
+                     Grid.Column="0"
+                     Height="10"
+                     MinHeight="10"
+                     Value="{TemplateBinding HorizontalOffset}"
+                     Maximum="{TemplateBinding ScrollableWidth}"
+                     ViewportSize="{TemplateBinding ViewportWidth}"
+                     Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="GridSplitter">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Margin" Value="1" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseDirectlyOver" Value="True">
+                    <Setter Property="Background" Value="{Binding Applied.Colors.SecondaryColor}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="{Binding Applied.Colors.ForegroundColor}" />
+            <Setter Property="FontSize" Value="{Binding Applied.Fonts.Size}" />
+        </Style>
     </Window.Resources>
 
     <Grid Background="{Binding Applied.Colors.MainColor}">
@@ -239,13 +298,11 @@
 
         <StatusBar x:Name="StatusBar" Grid.Row="4" Grid.ColumnSpan="3" Background="{Binding Applied.Colors.BackgroundColor}" Margin="0,0,0.4,-0.2" Padding="0"/>
 
-        <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Width="8"
-                      VerticalAlignment="Stretch" HorizontalAlignment="Center"
-                      Background="{Binding Applied.Colors.MainColor}" />
+        <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="4" Width="4"
+                      VerticalAlignment="Stretch" HorizontalAlignment="Center" />
 
-        <GridSplitter Grid.Row="2" Grid.Column="2" Height="8" 
-                      VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                      Background="{Binding Applied.Colors.MainColor}" />
+        <GridSplitter Grid.Row="2" Grid.Column="2" Height="4" 
+                      VerticalAlignment="Center" HorizontalAlignment="Stretch" />
 
         <TabControl Grid.Row="1" x:Name="TabControl" BorderThickness="0" Margin="0,0,0,3"
                     Grid.RowSpan="3" Background="{Binding Applied.Colors.MainColor}">
@@ -321,7 +378,10 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Border Grid.Row="0" BorderBrush="{Binding Applied.Colors.BorderColor}" BorderThickness="0,0,0,1" Background="{Binding Applied.Colors.MainColor}">
-                    <Label Foreground="{Binding Applied.Colors.ForegroundColor}" HorizontalAlignment="Center">Rétegek</Label>
+                    <Grid>
+                        <Label HorizontalAlignment="Center">Rétegek</Label>
+                        <Label x:Name="TotalEffectTimerLabel" HorizontalAlignment="Right" ToolTip="Total Eeffect Apply time...">- ms</Label>
+                    </Grid>
                 </Border>
                 <ScrollViewer x:Name="LayersScroller" VerticalScrollBarVisibility="Auto" Grid.Row="1" MaxHeight="200">
                     <StackPanel x:Name="LayersPanel" Margin="5" VerticalAlignment="Top">

@@ -6,8 +6,19 @@
              xmlns:local="clr-namespace:PhoVodKEdit.PhotoEditor"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="{Binding Applied.Colors.MainColor}">
-        <ScrollViewer x:Name="ScrollViewer" HorizontalScrollBarVisibility="auto" VerticalScrollBarVisibility="Auto">
+    <Grid Background="{Binding Applied.Colors.BackgroundColor}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="50" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Border BorderBrush="{Binding Applied.Colors.BorderColor}" BorderThickness="0,0,1,0">
+            <StackPanel Background="{Binding Applied.Colors.MainColor}">
+                <Button Content="Ecset" />
+            </StackPanel>
+        </Border>
+        <GridSplitter Grid.Column="1" Width="4" VerticalAlignment="Stretch" HorizontalAlignment="Center" />
+        <ScrollViewer x:Name="ScrollViewer" Grid.Column="2" HorizontalScrollBarVisibility="auto" VerticalScrollBarVisibility="Auto">
             <local:PictureCanvas x:Name="Canvas" Width="500" Height="400" Background="White">
 
             </local:PictureCanvas>

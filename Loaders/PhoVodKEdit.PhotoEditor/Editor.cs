@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using PhoVodKEdit.Port;
@@ -17,12 +18,14 @@ namespace PhoVodKEdit.PhotoEditor {
 		private string PictureName = string.Empty;
 		private string PictureExt = string.Empty;
 
-		public Editor(AppliedSettings _applied) : base(_applied)
-		{
+		private Slider sizeSlider;
+		private Label sliderPercentage;
+
+		public Editor(AppliedSettings _applied) : base(_applied) {
 			OwnWindow = new EditorWindow();
 		}
 
-		public override void ApplyEffects() {
+		protected override void ApplyEffects() {
 			if (originalImage == null) return;
 
 			image = new Bitmap(originalImage);
@@ -37,7 +40,7 @@ namespace PhoVodKEdit.PhotoEditor {
 				}
 			}
 
-			Refresh();
+			//Refresh();
 		}
 
 		public override void Refresh() {
@@ -60,43 +63,92 @@ namespace PhoVodKEdit.PhotoEditor {
 			var graphic = Graphics.FromImage(new Bitmap(originalImage.Width, originalImage.Height, PixelFormat.Format32bppArgb));
 			graphic.DrawImage(originalImage, new System.Drawing.Point(0, 0));
 			image = new Bitmap(originalImage);
-			(OwnWindow as EditorWindow).SetCanvas(image);
+
+			(OwnWindow as EditorWindow).InitCanvas(image);
+
+			ApplyEffects();
+			if (sizeSlider != null) sizeSlider.Value = 100;
 		}
 
 		public override FrameworkElement GetStatusbarContent() {
 			Grid grid = new Grid() {
-				Width = 200,
+				//Width = 200,
 				HorizontalAlignment = HorizontalAlignment.Left,
 			};
 
 			grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(25) });
-			grid.ColumnDefinitions.Add(new ColumnDefinition());
+			grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(200) });
+			grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
 			grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(25) });
 
 			Button btnMinus = new Button() {
 				Content = "-",
-				Height = 25
+				Height = 25,
+				Padding = new Thickness(0)
 			};
-			Grid.SetColumn(btnMinus, 0);
-			grid.Children.Add(btnMinus);
-
-			Slider slider = new Slider() {
-				Minimum = 0,
+			sizeSlider = new Slider() {
+				Minimum = 20,
 				Maximum = 500,
 				Value = 100,
 				Height = 25
 			};
-			slider.ValueChanged += (sender, e) => {
-				(OwnWindow as EditorWindow).SetCanvasSize(slider.Value);
+			sliderPercentage = new Label() {
+				Content = "100%",
+				FontSize = Applied.Font.Size,
+				Foreground = Applied.Colors.ForegroundColor,
+				Margin = new Thickness(0),
+				Padding = new Thickness(0),
+				//SelectedValuePath = string.Format("{0:0}%", sizeSlider.Value),
+				//IsEditable = true
 			};
-			Grid.SetColumn(slider, 1);
-			grid.Children.Add(slider);
-
 			Button btnPlus = new Button() {
 				Content = "+",
-				Height = 25
+				Height = 25,
+				Padding = new Thickness(0)
 			};
-			Grid.SetColumn(btnPlus, 2);
+
+			btnMinus.Click += (sender, e) => {
+				if (sizeSlider.Value - 10 > sizeSlider.Minimum) {
+					sizeSlider.Value -= 10;
+				}
+				else sizeSlider.Value = sizeSlider.Minimum;
+			};
+			sizeSlider.ValueChanged += (sender, e) => {
+				sliderPercentage.Content = string.Format("{0}%", sizeSlider.Value.ToString("0.00").TrimEnd('0').TrimEnd(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator[0]));
+				(OwnWindow as EditorWindow).SetCanvasSize(sizeSlider.Value);
+			};
+			sliderPercentage.MouseUp += (sender, e) => {
+				sizeSlider.Value = 100;
+			};
+			//sliderPercentage.Items.Add("20%");
+			//sliderPercentage.Items.Add("30%");
+			//sliderPercentage.Items.Add("40%");
+			//sliderPercentage.Items.Add("50%");
+			//sliderPercentage.Items.Add("60%");
+			//sliderPercentage.Items.Add("75%");
+			//sliderPercentage.Items.Add("90%");
+			//sliderPercentage.Items.Add("100%");
+			//sliderPercentage.Items.Add("150%");
+			//sliderPercentage.Items.Add("200%");
+			//sliderPercentage.Items.Add("250%");
+			//sliderPercentage.Items.Add("300%");
+			//sliderPercentage.Items.Add("400%");
+			//sliderPercentage.Items.Add("500%");
+			btnPlus.Click += (sender, e) => {
+				if (sizeSlider.Value + 10 < sizeSlider.Maximum) {
+					sizeSlider.Value += 10;
+				}
+				else sizeSlider.Value = sizeSlider.Maximum;
+			};
+
+			Grid.SetColumn(btnMinus, 0);
+			Grid.SetColumn(sizeSlider, 1);
+			Grid.SetColumn(sliderPercentage, 2);
+			Grid.SetColumn(btnPlus, 3);
+
+			grid.Children.Add(btnMinus);
+			grid.Children.Add(sizeSlider);
+			grid.Children.Add(sliderPercentage);
 			grid.Children.Add(btnPlus);
 
 			return grid;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,6 +14,8 @@ namespace PhoVodKEdit.Port
 	/// </summary>
 	public abstract class PortScreen : PortingUtility
 	{
+		protected Stopwatch stopwatch;
+
 		#region Properties
 		protected List<Layer> Layers { get; set; } = new List<Layer>();
 
@@ -24,6 +27,8 @@ namespace PhoVodKEdit.Port
 		#region Ctor
 		public PortScreen(AppliedSettings _applied) : base(_applied)
 		{
+			stopwatch = new Stopwatch();
+
 			ContentFilter = new ContentFilter()
 			{
 				InitDirectory = string.Empty,
@@ -145,10 +150,23 @@ namespace PhoVodKEdit.Port
 
 		public abstract Window CreateNewContent();
 
-		public abstract void ApplyEffects();
+		public void Apply() {
+			stopwatch.Reset();
+			stopwatch.Start();
+
+			ApplyEffects();
+
+			stopwatch.Stop();
+		}
+
+		protected abstract void ApplyEffects();
 
 		public abstract void Refresh();
 
 		public virtual FrameworkElement GetStatusbarContent() { return null; }
+
+		public double GetProcessTinmeMs() {
+			return stopwatch.Elapsed.TotalMilliseconds;
+		}
 	}
 }
