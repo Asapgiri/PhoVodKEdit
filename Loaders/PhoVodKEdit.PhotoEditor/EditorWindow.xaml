@@ -19,7 +19,7 @@
         </Border>
         <GridSplitter Grid.Column="1" Width="4" VerticalAlignment="Stretch" HorizontalAlignment="Center" />
         <ScrollViewer x:Name="ScrollViewer" Grid.Column="2" HorizontalScrollBarVisibility="auto" VerticalScrollBarVisibility="Auto">
-            <local:PictureCanvas x:Name="Canvas" Width="500" Height="400" Background="White">
+            <local:PictureCanvas x:Name="Canvas" Width="500" Height="400" Background="White" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp">
 
             </local:PictureCanvas>
         </ScrollViewer>

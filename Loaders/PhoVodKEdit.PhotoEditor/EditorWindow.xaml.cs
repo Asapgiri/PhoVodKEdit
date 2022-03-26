@@ -11,6 +11,7 @@ namespace PhoVodKEdit.PhotoEditor {
 		private double imageWidth;
 
 		private double previousPercentage;
+		private bool initialized = false;
 
 		public EditorWindow()
 		{
@@ -18,12 +19,19 @@ namespace PhoVodKEdit.PhotoEditor {
 		}
 
 		public void InitCanvas(Bitmap image) {
-			Canvas.Height = image.Height;
-			Canvas.Width = image.Width;
+			//Canvas.Height = image.Height;
+			//Canvas.Width = image.Width;
 			imageHeight = image.Height;
 			imageWidth = image.Width;
 			Canvas.SetImage(image);
-			SetCanvasSize();
+			if (initialized) {
+				SetCanvasSize(previousPercentage, false);
+
+			}
+			else {
+				SetCanvasSize();
+				initialized = true;
+			}
 		}
 
 		public void SetCanvas(Bitmap image)
@@ -31,11 +39,11 @@ namespace PhoVodKEdit.PhotoEditor {
 			imageHeight = image.Height;
 			imageWidth = image.Width;
 			Canvas.SetImage(image);
-			SetCanvasSize(previousPercentage);
+			SetCanvasSize(previousPercentage, false);
 		}
 
-		public void SetCanvasSize(double percentage = 100) {
-			if (previousPercentage != 0 && percentage == previousPercentage) return; 
+		public void SetCanvasSize(double percentage = 100, bool fromInit = true) {
+			if (!fromInit && previousPercentage != 0 && previousPercentage != 100 && percentage == previousPercentage) return; 
 			if (percentage < 20) percentage = 100;
 			previousPercentage = percentage;
 			percentage *= .01;
@@ -51,6 +59,18 @@ namespace PhoVodKEdit.PhotoEditor {
 				Canvas.Width = percentage * ScrollViewer.ActualWidth - 5;
 				Canvas.Height = imageHeight * Canvas.Width / imageWidth;
 			}
+		}
+
+		private void Canvas_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+
+		}
+
+		private void Canvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e) {
+
+		}
+
+		private void Canvas_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+
 		}
 	}
 }

@@ -22,7 +22,11 @@ namespace PhoVodKEdit.BasicEffects.ABS {
 			else return null;
 		}
 
-		protected override unsafe void Implement(Bitmap image, PixelFormat pixelFormat, BitmapData lockedBitmapData, int stride, IntPtr Scan0, IntPtr originalScan0) {
+        protected override void Implement(Bitmap image, PixelFormat pixelFormat, BitmapData bitmapData, int stride, IntPtr Scan0, IntPtr originalScan0) {
+            Implement(image, pixelFormat, bitmapData, stride, Scan0, originalScan0, null, null);
+        }
+
+        protected virtual unsafe void Implement(Bitmap image, PixelFormat pixelFormat, BitmapData lockedBitmapData, int stride, IntPtr Scan0, IntPtr originalScan0, double[] mask = null, Action<byte, byte, int, double[], int, int> callback = null) {
 			int nextPixel = pixelFormat == PixelFormat.Format32bppArgb ? 4 : 3;
 			lastPixelFormat = pixelFormat;
 
@@ -33,7 +37,7 @@ namespace PhoVodKEdit.BasicEffects.ABS {
 			byte* p = (byte*)(void*)Scan0;
 			byte* po = (byte*)(void*)originalScan0;
 
-			double[] mask = CalculateMask();
+			if (mask == null) mask = CalculateMask();
 
 			#region Middle
 			if (!IsThreadCountMultiplyerFixed) {
@@ -44,14 +48,16 @@ namespace PhoVodKEdit.BasicEffects.ABS {
 			p = p + nWidth * nextPixel + nextPixel;
 			po = po + nWidth * nextPixel + nextPixel;
 			if (ThreadCountMultiplyer == 0) {
-				CalculateMiddleParts(p, po, nextPixel, mask, nWidth, cWidth);
+				if (callback != null) callback(*p, *po, nextPixel, mask, nWidth, cWidth);
+				else CalculateMiddleParts(p, po, nextPixel, mask, nWidth, cWidth);
 			}
 			else {
 				Task[] tasks = new Task[(int)Math.Pow(2, ThreadCountMultiplyer)];
 				{
 					byte* x = p;
 					byte* y = po;
-					tasks[0] = new Task(() => CalculateMiddleParts(x, y, nextPixel, mask, nWidth, cWidth));
+					if (callback != null) tasks[0] = new Task(() => callback(*x, *y, nextPixel, mask, nWidth, cWidth));
+					else tasks[0] = new Task(() => CalculateMiddleParts(x, y, nextPixel, mask, nWidth, cWidth));
 				}
 
 				for (int i = 1; i < tasks.Length; i++) {
@@ -60,7 +66,8 @@ namespace PhoVodKEdit.BasicEffects.ABS {
 					{
 						byte* x = p;
 						byte* y = po;
-						tasks[i] = new Task(() => CalculateMiddleParts(x, y, nextPixel, mask, nWidth, cWidth));
+						if (callback != null) tasks[i] = new Task(() => callback(*x, *y, nextPixel, mask, nWidth, cWidth));
+						else tasks[i] = new Task(() => CalculateMiddleParts(x, y, nextPixel, mask, nWidth, cWidth));
 					}
 				}
 
@@ -230,7 +237,7 @@ namespace PhoVodKEdit.BasicEffects.ABS {
 		}
 
 		[HandleProcessCorruptedStateExceptions]
-		private unsafe void CalculateMiddleParts(byte* p, byte* po, int nextPixel, double[] mask, int nWidth, int cWidth) {
+		protected unsafe void CalculateMiddleParts(byte* p, byte* po, int nextPixel, double[] mask, int nWidth, int cWidth) {
 			try {
 				for (int i = 0; i < cWidth; i++) {
 					//int topLeft = i * nextPixel;

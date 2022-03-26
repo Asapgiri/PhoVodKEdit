@@ -26,6 +26,7 @@ namespace PhoVodKEdit
 
 		private readonly ResourceLoader resourceLoader;
 		private AddEffectWindow addEffectWindow;
+		private Task applierTask;
 
 		public int SelectedScreen { get; set; } = -1;
 
@@ -247,6 +248,8 @@ namespace PhoVodKEdit
 		}
 
 		private void ApplyEffects() {
+			//if (applierTask == null)
+
 			Task.Factory.StartNew(() => {
 				Screens[SelectedScreen].Apply();
 			}).ContinueWith(r => {
@@ -372,6 +375,11 @@ namespace PhoVodKEdit
 		private void MenuItem_CloseClick(object sender, RoutedEventArgs e) {
 			Screens.RemoveAt(TabControl.Items.IndexOf(TabControl.SelectedItem));
 			TabControl.Items.Remove(TabControl.SelectedItem);
+		}
+
+		private void MenuItem_NewClick(object sender, RoutedEventArgs e) {
+			Window cncw = Screens[SelectedScreen].CreateNewContent();
+			cncw.Show();
 		}
 	}
 }

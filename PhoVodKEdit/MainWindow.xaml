@@ -270,7 +270,7 @@
         <DockPanel x:Name="Toolbar" Background="{Binding Applied.Colors.MainColor}">
             <Menu>
                 <MenuItem Header="{Binding Applied.Language.MENU_FILE}">
-                    <MenuItem Header="{Binding Applied.Language.MENU_FILE_NEW}"/>
+                    <MenuItem Header="{Binding Applied.Language.MENU_FILE_NEW}" Click="MenuItem_NewClick"/>
                     <MenuItem Header="{Binding Applied.Language.MENU_FILE_OPEN}" Click="MenuItem_OpenClick"/>
                     <MenuItem Header="{Binding Applied.Language.MENU_FILE_SAVE}"/>
                     <MenuItem Header="{Binding Applied.Language.MENU_FILE_SAVE_AS}"/>

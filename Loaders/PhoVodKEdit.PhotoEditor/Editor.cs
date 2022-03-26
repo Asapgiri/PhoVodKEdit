@@ -49,7 +49,17 @@ namespace PhoVodKEdit.PhotoEditor {
 
 		public override Window CreateNewContent()
 		{
-			throw new NotImplementedException();
+			return new CreateNew(Applied, (w, h, pf) => {
+				originalImage = new Bitmap(w, h, pf);
+				Graphics g = Graphics.FromImage(originalImage);
+				g.Clear(Color.White);
+				image = new Bitmap(originalImage);
+
+				(OwnWindow as EditorWindow).InitCanvas(image);
+
+				ApplyEffects();
+				if (sizeSlider != null && sizeSlider.Value > 100) sizeSlider.Value = 100;
+			});
 		}
 
 		public override void SetContent(string contentPath)
@@ -67,7 +77,7 @@ namespace PhoVodKEdit.PhotoEditor {
 			(OwnWindow as EditorWindow).InitCanvas(image);
 
 			ApplyEffects();
-			if (sizeSlider != null) sizeSlider.Value = 100;
+			if (sizeSlider != null && sizeSlider.Value > 100) sizeSlider.Value = 100;
 		}
 
 		public override FrameworkElement GetStatusbarContent() {
