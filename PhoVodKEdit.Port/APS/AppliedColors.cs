@@ -17,6 +17,7 @@ namespace PhoVodKEdit.Port.APS
 		private Brush _foregroundColor;
 		private Brush _backgroundColor;
 		private Brush _borderColor;
+		private Brush _dangerColor;
 		#endregion Variables
 
 		public AppliedColors(PropertyChangedEventHandler _eventHandler)
@@ -25,7 +26,7 @@ namespace PhoVodKEdit.Port.APS
 		}
 
 		#region Properties
-		public Brush MainColor
+		public Brush Main
 		{
 			get
 			{
@@ -34,13 +35,12 @@ namespace PhoVodKEdit.Port.APS
 			set
 			{
 				_mainColor = value;
-				OnPropertyChanged("MainColor");
+				OnPropertyChanged("Main");
 
 			}
 		}
 
-		public Brush SecondaryColor
-		{
+		public Brush Secondary {
 			get
 			{
 				return _secondaryColor;
@@ -48,13 +48,12 @@ namespace PhoVodKEdit.Port.APS
 			set
 			{
 				_secondaryColor = value;
-				OnPropertyChanged("SecondaryColor");
+				OnPropertyChanged("Secondary");
 
 			}
 		}
 
-		public Brush ForegroundColor
-		{
+		public Brush Foreground {
 			get
 			{
 				return _foregroundColor;
@@ -62,13 +61,12 @@ namespace PhoVodKEdit.Port.APS
 			set
 			{
 				_foregroundColor = value;
-				OnPropertyChanged("ForegroundColor");
+				OnPropertyChanged("Foreground");
 
 			}
 		}
 
-		public Brush BackgroundColor
-		{
+		public Brush Background {
 			get
 			{
 				return _backgroundColor;
@@ -76,13 +74,12 @@ namespace PhoVodKEdit.Port.APS
 			set
 			{
 				_backgroundColor = value;
-				OnPropertyChanged("BackgroundColor");
+				OnPropertyChanged("Background");
 
 			}
 		}
 
-		public Brush BorderColor
-		{
+		public Brush Border {
 			get
 			{
 				return _borderColor;
@@ -90,7 +87,18 @@ namespace PhoVodKEdit.Port.APS
 			set
 			{
 				_borderColor = value;
-				OnPropertyChanged("BorderColor");
+				OnPropertyChanged("Border");
+
+			}
+		}
+
+		public Brush Danger {
+			get {
+				return _dangerColor;
+			}
+			set {
+				_dangerColor = value;
+				OnPropertyChanged("Danger");
 
 			}
 		}

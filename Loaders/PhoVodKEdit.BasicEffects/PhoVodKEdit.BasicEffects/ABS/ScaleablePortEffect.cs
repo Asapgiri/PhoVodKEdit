@@ -33,7 +33,7 @@ namespace PhoVodKEdit.BasicEffects.ABS {
 
 			Label lable0 = new Label {
 				Content = "Value: ",
-				Foreground = Applied.Colors.ForegroundColor,
+				Foreground = Applied.Colors.Foreground,
 				FontSize = (double)Applied.Font.Size,
 				HorizontalAlignment = HorizontalAlignment.Center,
 				VerticalAlignment = VerticalAlignment.Center,
@@ -51,7 +51,7 @@ namespace PhoVodKEdit.BasicEffects.ABS {
 
 			ScaleLabel = new Label {
 				Content = string.Format("{0:0.00}", Scaling),
-				Foreground = Applied.Colors.ForegroundColor,
+				Foreground = Applied.Colors.Foreground,
 				FontSize = (double)Applied.Font.Size,
 				HorizontalAlignment = HorizontalAlignment.Center,
 				VerticalAlignment = VerticalAlignment.Center,

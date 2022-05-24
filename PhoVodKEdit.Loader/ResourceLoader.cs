@@ -44,19 +44,33 @@ namespace PhoVodKEdit.Loader
 			return loadableFiles;
 		}
 
-		public List<Type> Load<T, Other>(out List<Type> others) where T: PortingUtility where Other: PortingUtility
+		public Dictionary<string, List<Type>> Load<T, Other>(out List<Type> others) where T: PortingUtility where Other: PortingUtility
 		{
 			string[] lf = GetLoadableResources();
-			List<Type> ret = new List<Type>();
+			Dictionary<string, List<Type>> ret = new Dictionary<string, List<Type>>();
 			others = new List<Type>();
 
 			foreach (string dllPath in lf) {
 				var DLL = Assembly.LoadFile(Path.Combine(Directory.GetCurrentDirectory(), dllPath));
+				Type[] types;
+				try {
+					types = DLL.GetTypes();
+				}
+				catch (System.Reflection.ReflectionTypeLoadException ex) {
+					types = ex.Types;
+				}
 
-				foreach (Type type in DLL.GetTypes()) {
-					if (!type.IsAbstract) {
+				foreach (Type type in types) {
+					if (type != null && !type.IsAbstract) {
 						if (type.IsSubclassOf(typeof(T))) {
-							ret.Add(type);
+							FileTypesAttribute extsAttr = type.GetCustomAttribute(typeof(FileTypesAttribute)) as FileTypesAttribute;
+                            foreach (string ext in extsAttr.exts) {
+								string extUp = ext.ToUpper();
+								if (!ret.ContainsKey(extUp)) {
+									ret[extUp] = new List<Type>();
+                                }
+								ret[extUp].Add(type);
+                            }
 						}
 						else if (type.IsSubclassOf(typeof(Other))) {
 							others.Add(type);
@@ -68,11 +82,11 @@ namespace PhoVodKEdit.Loader
 			return ret;
 		}
 
-		public List<Type> LoadEffects(out List<Type> others) => Load<PortEffect, PortingUtility>(out others);
+		public List<Type> LoadEffects(out List<Type> others) => throw new NotImplementedException(); // Load<PortEffect, PortingUtility>(out others);
 
-		public List<Type> LoadScreens(out List<Type> others) => Load<PortScreen, PortEffect>(out others);
+		public Dictionary<string, List<Type>> LoadScreens(out List<Type> others) => Load<PortScreen, PortEffect>(out others);
 
-		public List<Type> Load(out List<Type> others) => Load<PortingUtility, PortingUtility>(out others);
+		public Dictionary<string, List<Type>> Load(out List<Type> others) => Load<PortingUtility, PortingUtility>(out others);
 
 		public PortingUtility CreateInstance(Type type)
 		{

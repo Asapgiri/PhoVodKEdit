@@ -14,6 +14,7 @@ namespace PhoVodKEdit.Port.APS {
 				public static Color Foreground => Color.FromRgb(0xf1, 0xf1, 0xf1);
 				public static Color Background => Color.FromRgb(0x25, 0x25, 0x26);
 				public static Color Border => Color.FromRgb(0x5e, 0x5e, 0x5e);
+				public static Color Danger => Color.FromRgb(0xc8, 0x00, 0x00);
 			}
 
 			public static class Light {

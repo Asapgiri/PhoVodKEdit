@@ -6,15 +6,46 @@
              xmlns:local="clr-namespace:PhoVodKEdit.PhotoEditor"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="{Binding Applied.Colors.BackgroundColor}">
+    <Grid Background="{Binding Applied.Colors.Background}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Border BorderBrush="{Binding Applied.Colors.BorderColor}" BorderThickness="0,0,1,0">
-            <StackPanel Background="{Binding Applied.Colors.MainColor}">
-                <Button Content="Ecset" />
+        <Border BorderBrush="{Binding Applied.Colors.Border}" BorderThickness="0,0,1,0" SizeChanged="Border_SizeChanged">
+            <StackPanel x:Name="EcsetPanel" Background="{Binding Applied.Colors.Main}" Margin="2">
+                <Button Content="Move" Margin="0,0,0,2" Click="Move_Click"/>
+                <Button Content="Ecset" Margin="0,0,0,2" Click="Ecset_Click"/>
+                <Button Content="Radír" Margin="0,0,0,2" Click="Erase_Click"/>
+                <Button Content="Vonal" Margin="0,0,0,2" Click="Line_Click"/>
+                <Button Content="Kör" Margin="0,0,0,2" Click="Ellipse_Click"/>
+                <Button Content="Kocka" Margin="0,0,0,2" Click="Kocka_Click"/>
+                <Button x:Name="ColorPicker" Margin="0,0,0,2" Click="Szinvalto_Click"/>
+                <Button Content="Size = 5" x:Name="PenSize" Margin="0,0,0,2" Click="PenSizer_Click"/>
+
+                <!--
+                <Menu>
+                    <MenuItem Header="Ecset">
+                        <MenuItem Header="Ecset1"/>
+                    </MenuItem>
+                </Menu>
+                <Menu>
+                    <MenuItem Header="Radír">
+                        <MenuItem Header="Ecset1"/>
+                    </MenuItem>
+                </Menu>
+                <Menu>
+                    <MenuItem Header="Menu3">
+                        <MenuItem Header="Ecset1"/>
+                    </MenuItem>
+                </Menu>
+                <Menu>
+                    <MenuItem Header="Menu4">
+                        <MenuItem Header="Ecset1"/>
+                    </MenuItem>
+                </Menu>
+                -->
+
             </StackPanel>
         </Border>
         <GridSplitter Grid.Column="1" Width="4" VerticalAlignment="Stretch" HorizontalAlignment="Center" />

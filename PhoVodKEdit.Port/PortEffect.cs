@@ -1,7 +1,9 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows;
+using System.Windows.Controls;
 using PhoVodKEdit.Port.APS;
 
 namespace PhoVodKEdit.Port
@@ -10,6 +12,8 @@ namespace PhoVodKEdit.Port
 	{
 		protected Stopwatch stopwatch;
 
+		public Exception CatchedException { get; set; }
+		
 		public bool Rendered { get; set; } = true;
 		public bool ApplyableOnFrames { get; protected set; } = true;
 		protected bool PrelockImage { get; set; } = true;
@@ -19,7 +23,39 @@ namespace PhoVodKEdit.Port
 		}
 
 		public abstract FrameworkElement GetView();
+
+		public FrameworkElement GetPublicView() {
+			if (CatchedException == null) {
+				return GetView();
+			}
+			else {
+				Grid grid = new Grid();
+				var view = GetView();
+
+				Label label = new Label() {
+					Content = CatchedException.ToString()
+				};
+				grid.Children.Add(label);
+
+				if (view != null) {
+					grid.RowDefinitions.Add(new RowDefinition());
+					grid.RowDefinitions.Add(new RowDefinition());
+					grid.Children.Add(view);
+					Grid.SetRow(label, 1);
+				}
+
+				Border border = new Border() {
+					BorderBrush = Applied.Colors.Danger,
+					BorderThickness = new Thickness(1),
+					Child = grid
+				};
+
+				return border;
+			}
+		}
+
 		public void Apply(Bitmap image, PixelFormat pixelFormat) {
+			CatchedException = null;
 			stopwatch.Reset();
 			stopwatch.Start();
 

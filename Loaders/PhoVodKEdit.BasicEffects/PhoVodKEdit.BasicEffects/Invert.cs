@@ -33,9 +33,9 @@ namespace PhoVodKEdit.BasicEffects
 			//Task.WaitAll(tasks);
 
 			for (int y = 0; y < mWidth; ++y) {
-				p[0] = (byte)(255 - p[0]);
-				q[0] = (byte)(255 - q[0]);
-				r[0] = (byte)(255 - r[0]);
+				p[0] = (byte)(~p[0]);
+				q[0] = (byte)(~q[0]);
+				r[0] = (byte)(~r[0]);
 				p += nextPixel;
 				q += nextPixel;
 				r += nextPixel;
@@ -56,7 +56,7 @@ namespace PhoVodKEdit.BasicEffects
 			Label lable = new Label
 			{
 				Content = "No settings to show",
-				Foreground = Applied.Colors.ForegroundColor,
+				Foreground = Applied.Colors.Foreground,
 				FontSize = Applied.Font.Size,
 				HorizontalAlignment = HorizontalAlignment.Center,
 				VerticalAlignment = VerticalAlignment.Center

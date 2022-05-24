@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="ABS\MascingPortEffect.cs" />
     <Compile Include="AverageFilter.cs" />
+    <Compile Include="ChangeOpacity.cs" />
     <Compile Include="FeatureDetection.cs" />
     <Compile Include="GammaTransformation.cs" />
     <Compile Include="GaussFilter.cs" />
@@ -78,6 +79,9 @@
       <Project>{fdc520f9-dd11-4153-87f8-96a96130ebe1}</Project>
       <Name>PhoVodKEdit</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

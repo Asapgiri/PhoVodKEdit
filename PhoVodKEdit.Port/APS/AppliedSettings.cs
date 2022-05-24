@@ -26,11 +26,12 @@ namespace PhoVodKEdit.Port.APS
 			{
 				this.Colors = new AppliedColors(_eventHandler)
 				{
-					MainColor = new SolidColorBrush(Settings.Colors.Dark.Main),
-					SecondaryColor = new SolidColorBrush(Settings.Colors.Dark.Secondary),
-					ForegroundColor = new SolidColorBrush(Settings.Colors.Dark.Foreground),
-					BackgroundColor = new SolidColorBrush(Settings.Colors.Dark.Background),
-					BorderColor = new SolidColorBrush(Settings.Colors.Dark.Border)
+					Main = new SolidColorBrush(Settings.Colors.Dark.Main),
+					Secondary = new SolidColorBrush(Settings.Colors.Dark.Secondary),
+					Foreground = new SolidColorBrush(Settings.Colors.Dark.Foreground),
+					Background = new SolidColorBrush(Settings.Colors.Dark.Background),
+					Border = new SolidColorBrush(Settings.Colors.Dark.Border),
+					Danger = new SolidColorBrush(Settings.Colors.Dark.Danger)
 				};
 
 				this.Font = new Fonts()

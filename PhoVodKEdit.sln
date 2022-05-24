@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoVodKEdit.PhotoEditor", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoVodKEdit.BasicEffects", "Loaders\PhoVodKEdit.BasicEffects\PhoVodKEdit.BasicEffects\PhoVodKEdit.BasicEffects.csproj", "{713C20AD-69B9-447E-9951-0F57F183220E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoVodKEdit.VidEditor", "Loaders\PhoVodKEdit.VidEditor\PhoVodKEdit.VidEditor.csproj", "{A93E30FE-087D-4E29-9544-D2B97720C839}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhoVodKEdit.GifEditor", "Loaders\PhoVodKEdit.GifEditor\PhoVodKEdit.GifEditor.csproj", "{D8131394-E4B5-4BFE-AC54-7694815E1159}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +69,14 @@ Global
 		{713C20AD-69B9-447E-9951-0F57F183220E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{713C20AD-69B9-447E-9951-0F57F183220E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{713C20AD-69B9-447E-9951-0F57F183220E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A93E30FE-087D-4E29-9544-D2B97720C839}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A93E30FE-087D-4E29-9544-D2B97720C839}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A93E30FE-087D-4E29-9544-D2B97720C839}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A93E30FE-087D-4E29-9544-D2B97720C839}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8131394-E4B5-4BFE-AC54-7694815E1159}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8131394-E4B5-4BFE-AC54-7694815E1159}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8131394-E4B5-4BFE-AC54-7694815E1159}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8131394-E4B5-4BFE-AC54-7694815E1159}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +86,8 @@ Global
 		{9DC7ABEB-CD05-4686-92BB-3F1B079C3EBB} = {8A882506-5F28-48B7-A0A4-0AFD62E5DDA6}
 		{F7EBE029-1549-4D21-9023-503E6861D105} = {0D1F7212-D22F-426F-96DA-8A85B0EE2333}
 		{713C20AD-69B9-447E-9951-0F57F183220E} = {EDBC6BCA-B107-4DBD-A92F-590F9A521FC4}
+		{A93E30FE-087D-4E29-9544-D2B97720C839} = {0D1F7212-D22F-426F-96DA-8A85B0EE2333}
+		{D8131394-E4B5-4BFE-AC54-7694815E1159} = {0D1F7212-D22F-426F-96DA-8A85B0EE2333}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B01CFBA6-F5BC-4E83-BA7A-495DC69862CA}

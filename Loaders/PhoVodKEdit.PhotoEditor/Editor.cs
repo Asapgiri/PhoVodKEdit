@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -10,6 +11,7 @@ using PhoVodKEdit.Port.APS;
 using PhoVodKEdit.Port.Utilities;
 
 namespace PhoVodKEdit.PhotoEditor {
+	[FileTypes("PNG", "JPEG", "JPG", "BMP")]
 	public class Editor : PortScreen
 	{
 		private Bitmap originalImage;
@@ -22,25 +24,42 @@ namespace PhoVodKEdit.PhotoEditor {
 		private Label sliderPercentage;
 
 		public Editor(AppliedSettings _applied) : base(_applied) {
-			OwnWindow = new EditorWindow();
+			OwnWindow = new EditorWindow(this);
+			Layers.Add(new Layer("Layer 1"));
+			TabName = PictureName;
 		}
 
 		protected override void ApplyEffects() {
 			if (originalImage == null) return;
 
 			image = new Bitmap(originalImage);
+			(OwnWindow as EditorWindow).image = image;
+			Graphics g = Graphics.FromImage(image);
+			(OwnWindow as EditorWindow).graphics = g;
+
 			foreach (Layer layer in Layers) {
 				if (layer.Rendered) {
+					foreach (var edit in layer.Edits) {
+						switch ((EditingTool)edit.Type) {
+							case EditingTool.None:		break;
+							case EditingTool.Pen:		g.DrawLine((Pen)edit.Data[0], (System.Drawing.Point)edit.Data[1], (System.Drawing.Point)edit.Data[2]); break;
+							case EditingTool.Brush:		break;
+							case EditingTool.Line:		g.DrawLine((Pen)edit.Data[0], (int)edit.Data[1], (int)edit.Data[2], (int)edit.Data[3], (int)edit.Data[4]); break;
+							case EditingTool.Ellipse:	g.DrawEllipse((Pen)edit.Data[0], (int)edit.Data[1], (int)edit.Data[2], (int)edit.Data[3], (int)edit.Data[4]); break;
+							case EditingTool.Rectangle: g.DrawRectangle((Pen)edit.Data[0], (int)edit.Data[1], (int)edit.Data[2], (int)edit.Data[3], (int)edit.Data[4]); break;
+							case EditingTool.Eraser:	g.DrawLine((Pen)edit.Data[0], (System.Drawing.Point)edit.Data[1], (System.Drawing.Point)edit.Data[2]); break;
+							default: break;
+						}
+					}
+					
 					foreach (PortEffect effect in layer.Effects) {
 						try {
 							if (effect.Rendered) effect.Apply(image, image.PixelFormat);//PictureExt == "png" ? PixelFormat.Format32bppArgb : PixelFormat.Format24bppRgb);
 						}
-						catch { }
+						catch (Exception ex) { effect.CatchedException = ex; }
 					}
 				}
 			}
-
-			//Refresh();
 		}
 
 		public override void Refresh() {
@@ -105,7 +124,7 @@ namespace PhoVodKEdit.PhotoEditor {
 			sliderPercentage = new Label() {
 				Content = "100%",
 				FontSize = Applied.Font.Size,
-				Foreground = Applied.Colors.ForegroundColor,
+				Foreground = Applied.Colors.Foreground,
 				Margin = new Thickness(0),
 				Padding = new Thickness(0),
 				//SelectedValuePath = string.Format("{0:0}%", sizeSlider.Value),
@@ -162,6 +181,10 @@ namespace PhoVodKEdit.PhotoEditor {
 			grid.Children.Add(btnPlus);
 
 			return grid;
+		}
+
+		public override void SaveToFile(string filePath) {
+			image.Save(filePath, ImageFormat.Png);
 		}
 	}
 }

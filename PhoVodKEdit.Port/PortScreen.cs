@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -12,16 +14,28 @@ namespace PhoVodKEdit.Port
 	/// <summary>
 	/// Porting class for the screens.
 	/// </summary>
-	public abstract class PortScreen : PortingUtility
-	{
+	public abstract class PortScreen : PortingUtility, INotifyPropertyChanged {
 		protected Stopwatch stopwatch;
 
 		#region Properties
-		protected List<Layer> Layers { get; set; } = new List<Layer>();
+		protected IList<ILayer> Layers { get; set; } = new List<ILayer>();
 
-		protected int SelectedLayer { get; set; } = 0;
+		public int SelectedLayer { get; protected set; } = 0;
 
 		public ContentFilter ContentFilter { get; set; }
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		private string tabName = string.Empty;
+		public string TabName {
+			get {
+				return tabName;
+			}
+			set {
+				tabName = value;
+				OnPropertyChanged("TabName");
+			}
+		}
 		#endregion Properties
 		
 		#region Ctor
@@ -36,10 +50,13 @@ namespace PhoVodKEdit.Port
 				RestoreDirectory = false
 			};
 
-			Layers.Add(new Layer("Layer 1"));
+			//Layers.Add(new Layer("Layer 1"));
 		}
 		#endregion Ctor
 
+		public void SetEventHandler(PropertyChangedEventHandler _PropertyChanged) {
+			this.PropertyChanged = _PropertyChanged;
+		}
 
 		public bool DefaultBackground { get; private set; } = true;
 
@@ -80,7 +97,7 @@ namespace PhoVodKEdit.Port
 			Layers[SelectedLayer].Effects.RemoveAt(index);
 		}
 
-		public virtual IList<Layer> GetAllLayers() {
+		public virtual IList<ILayer> GetAllLayers() {
 			return Layers;
 		}
 
@@ -106,6 +123,10 @@ namespace PhoVodKEdit.Port
 				Layers[index] = layer;
 			}
 		}
+
+		public ILayer GetSelectedLayer() {
+			return Layers[SelectedLayer];
+        }
 
 		public bool HasEffect(string name, string before = null) {
 			if (before != null) {
@@ -167,6 +188,24 @@ namespace PhoVodKEdit.Port
 
 		public double GetProcessTinmeMs() {
 			return stopwatch.Elapsed.TotalMilliseconds;
+		}
+
+		public virtual bool Dispose() {
+			GC.Collect();
+			return true;
+		}
+
+		protected void OnPropertyChanged(string propertyName) {
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+		public abstract void SaveToFile(string filePath);
+	}
+
+	public class FileTypesAttribute : Attribute {
+		public string[] exts;
+		public FileTypesAttribute(params string[] _exts) {
+			this.exts = _exts;
 		}
 	}
 }

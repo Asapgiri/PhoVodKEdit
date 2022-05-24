@@ -50,7 +50,7 @@ namespace PhoVodKEdit
 			selected = index;
 			foreach (Button button in AvailableEffects.Children) {
 				if (i++ == index) {
-					button.Background = Applied.Colors.SecondaryColor;
+					button.Background = Applied.Colors.Secondary;
 				}
 				else {
 					button.Background = Brushes.Transparent;

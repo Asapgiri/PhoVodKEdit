@@ -29,7 +29,7 @@ namespace PhoVodKEdit.BasicEffects {
 			for (int i = 0; i < histogram.Length; i++) {
 				MainGrid.ColumnDefinitions.Add(new ColumnDefinition());
 				Grid grid = new Grid {
-					Background = Applied.Colors.SecondaryColor,
+					Background = Applied.Colors.Secondary,
 					VerticalAlignment = VerticalAlignment.Bottom,
 					Height = (histogram[i] / histogram.Max()) * MainGrid.Height
 				};

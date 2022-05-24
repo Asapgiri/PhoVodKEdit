@@ -8,20 +8,20 @@
         Title="Create New Picture" Height="450" Width="800">
     <Window.Resources>
         <Style TargetType="Button">
-            <Setter Property="Background" Value="{Binding Applied.Colors.BackgroundColor}" />
-            <Setter Property="Foreground" Value="{Binding Applied.Colors.ForegroundColor}" />
-            <Setter Property="BorderBrush" Value="{Binding Applied.Colors.BorderColor}" />
+            <Setter Property="Background" Value="{Binding Applied.Colors.Background}" />
+            <Setter Property="Foreground" Value="{Binding Applied.Colors.Foreground}" />
+            <Setter Property="BorderBrush" Value="{Binding Applied.Colors.Border}" />
             <Setter Property="FontSize" Value="{Binding Applied.Fonts.Size}" />
             <Setter Property="Padding" Value="0" />
         </Style>
         <Style TargetType="Label">
-            <Setter Property="Foreground" Value="{Binding Applied.Colors.ForegroundColor}" />
+            <Setter Property="Foreground" Value="{Binding Applied.Colors.Foreground}" />
             <Setter Property="FontSize" Value="{Binding Applied.Fonts.Size}" />
         </Style>
         <Style TargetType="TextBox">
-            <Setter Property="Background" Value="{Binding Applied.Colors.BackgroundColor}" />
-            <Setter Property="Foreground" Value="{Binding Applied.Colors.ForegroundColor}" />
-            <Setter Property="BorderBrush" Value="{Binding Applied.Colors.BorderColor}" />
+            <Setter Property="Background" Value="{Binding Applied.Colors.Background}" />
+            <Setter Property="Foreground" Value="{Binding Applied.Colors.Foreground}" />
+            <Setter Property="BorderBrush" Value="{Binding Applied.Colors.Border}" />
             <Setter Property="FontSize" Value="{Binding Applied.Fonts.Size}" />
             <Setter Property="HorizontalContentAlignment" Value="Right" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -29,7 +29,7 @@
         </Style>
     </Window.Resources>
 
-    <Grid Background="{Binding Applied.Colors.MainColor}">
+    <Grid Background="{Binding Applied.Colors.Main}">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -43,7 +43,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="1" Grid.Row="1">
-            <!--Background="{Binding Applied.Colors.BackgroundColor}">-->
+            <!--Background="{Binding Applied.Colors.Background}">-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>

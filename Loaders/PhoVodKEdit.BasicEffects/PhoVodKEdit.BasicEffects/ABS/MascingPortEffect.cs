@@ -240,35 +240,6 @@ namespace PhoVodKEdit.BasicEffects.ABS {
 		protected unsafe void CalculateMiddleParts(byte* p, byte* po, int nextPixel, double[] mask, int nWidth, int cWidth) {
 			try {
 				for (int i = 0; i < cWidth; i++) {
-					//int topLeft = i * nextPixel;
-					//int top = topLeft + nextPixel;
-					//int topRight = top + nextPixel;
-
-					//int left = topLeft + stride;
-					//int pixel = left + nextPixel;
-					//int right = pixel + nextPixel;
-
-					//int bottomLeft = left + stride;
-					//int bottom = bottomLeft + nextPixel;
-					//int bottomRight = bottom + nextPixel;
-
-
-
-					//p[pixel] = (byte)((double)(po[topLeft] * mask[0] + po[top] * mask[1] + po[topRight] * mask[2]
-					//						 + po[left] * mask[3] + po[pixel] * mask[4] + po[right] * mask[5]
-					//						 + po[bottomLeft] * mask[6] + po[bottom] * mask[7] + po[bottomRight] * mask[8])
-					//						 / Factor + Offset);
-
-					//p[pixel + 1] = (byte)((double)(po[topLeft + 1] * mask[0] + po[top + 1] * mask[1] + po[topRight + 1] * mask[2]
-					//							 + po[left + 1] * mask[3] + po[pixel + 1] * mask[4] + po[right + 1] * mask[5]
-					//							 + po[bottomLeft + 1] * mask[6] + po[bottom + 1] * mask[7] + po[bottomRight + 1] * mask[8])
-					//							 / Factor + Offset);
-
-					//p[pixel + 2] = (byte)((double)(po[topLeft + 2] * mask[0] + po[top + 2] * mask[1] + po[topRight + 2] * mask[2]
-					//							 + po[left + 2] * mask[3] + po[pixel + 2] * mask[4] + po[right + 2] * mask[5]
-					//							 + po[bottomLeft + 2] * mask[6] + po[bottom + 2] * mask[7] + po[bottomRight + 2] * mask[8])
-					//							 / Factor + Offset);
-
 					byte* left = po - nextPixel;
 					byte* right = po + nextPixel;
 					byte* up = po - nWidth * nextPixel;
@@ -287,7 +258,9 @@ namespace PhoVodKEdit.BasicEffects.ABS {
 					po += nextPixel;
 				}
 			}
-			catch (Exception ex) { }
+			catch (Exception ex) {
+				CatchedException = ex;
+			}
 		}
 
 		protected abstract double[] CalculateMask();

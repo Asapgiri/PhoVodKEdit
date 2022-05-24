@@ -111,6 +111,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Loaders\PhoVodKEdit.VidEditor\PhoVodKEdit.VidEditor.csproj">
+      <Project>{A93E30FE-087D-4E29-9544-D2B97720C839}</Project>
+      <Name>PhoVodKEdit.VidEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PhoVodKEdit.Loader\PhoVodKEdit.Loader.csproj">
       <Project>{4957C702-97BD-4AA5-94C8-3562BEFCCDAD}</Project>
       <Name>PhoVodKEdit.Loader</Name>
